@@ -1,57 +1,25 @@
-package_name = causaltune
-coverage_target = 70
-max_line_length = 120
+# Minimal makefile for Sphinx documentation
+#
 
-venv_name = venv
-venv_activate_path := ./$(venv_name)/bin/activate
-cov_args := --cov $(package_name) --cov-fail-under=$(coverage_target) --cov-report=term-missing
-not_slow = -m "not slow"
+# You can set these variables from the command line, and also
+# from the environment for the first two.
+SPHINXOPTS    ?=
+SPHINXBUILD   ?= sphinx-build
+SOURCEDIR     = .
+BUILDDIR      = _build
 
-.PHONY: venv cov test
 
-clean:
-	rm -rf ./$(venv_name)
+# Put it first so that "make" without argument is like "make help".
+help:
+	@$(SPHINXBUILD) -M help "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
 
-venv:
-	python3 -m venv $(venv_name) ;\
-	. $(venv_activate_path) ;\
-	pip install --upgrade pip setuptools wheel ;\
-	pip install --upgrade -r requirements-dev.txt ;\
-	pip install --upgrade -r requirements.txt
+.PHONY: help Makefile clean_copy_paste_ipynb
 
-update:
-	. $(venv_activate_path) ;\
-	pip install --upgrade -r requirements-dev.txt ;\
-	pip install --upgrade -r requirements.txt
-
-lint:
-	. $(venv_activate_path) ;\
-	flake8 --max-line-length=$(max_line_length)
-
-test:
-	. $(venv_activate_path) ;\
-	py.test $(not_slow) --disable-warnings
-
-slowtest:
-	. $(venv_activate_path) ;\
-	py.test
-
-cov:
-	. $(venv_activate_path) ;\
-	py.test $(cov_args) $(not_slow)
-
-slowcov:
-	. $(venv_activate_path) ;\
-	py.test $(cov_args)
-
-format:
-	. $(venv_activate_path) ;\
-	isort -rc .
-	autoflake -r --in-place --remove-unused-variables .
-	black $(package_name)/ --skip-string-normalization
-	black tests/ --skip-string-normalization
-
-checkformat:
-	. $(venv_activate_path) ;\
-	black $(package_name)/ --skip-string-normalization --check ;\
-	black tests/ --skip-string-normalization --check
+# Catch-all target: route all unknown targets to Sphinx using the new
+# "make mode" option.  $(O) is meant as a shortcut for $(SPHINXOPTS).
+%: Makefile
+# copy paste jupyter notebooks	
+	mkdir -p $(SOURCEDIR)/notebooks
+	rm -f $(SOURCEDIR)/notebooks/*.ipynb
+	cp $(SOURCEDIR)/../notebooks/*.ipynb "$(SOURCEDIR)/notebooks"
+	@$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)

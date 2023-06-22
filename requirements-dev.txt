@@ -1,2 +1,0 @@
-#install extra dependencies from setup.py 'test'
--e file:../causaltune[test]

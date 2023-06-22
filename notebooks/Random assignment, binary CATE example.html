@@ -101,32 +101,32 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>%load_ext autoreload
-%autoreload 2
-import os, sys
-import warnings
-warnings.filterwarnings(&#39;ignore&#39;) # suppress sklearn deprecation warnings for now..
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">load_ext</span> autoreload
+<span class="o">%</span><span class="k">autoreload</span> 2
+<span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span> <span class="c1"># suppress sklearn deprecation warnings for now..</span>
 
-import pandas as pd
-import numpy as np
-from sklearn.model_selection import train_test_split
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
 
-# the below checks for whether we run dowhy, causaltune, and FLAML from source
-root_path = root_path = os.path.realpath(&#39;../..&#39;)
-try:
-    import causaltune
-except ModuleNotFoundError:
-    sys.path.append(os.path.join(root_path, &quot;causaltune&quot;))
+<span class="c1"># the below checks for whether we run dowhy, causaltune, and FLAML from source</span>
+<span class="n">root_path</span> <span class="o">=</span> <span class="n">root_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">realpath</span><span class="p">(</span><span class="s1">&#39;../..&#39;</span><span class="p">)</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">causaltune</span>
+<span class="k">except</span> <span class="ne">ModuleNotFoundError</span><span class="p">:</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">root_path</span><span class="p">,</span> <span class="s2">&quot;causaltune&quot;</span><span class="p">))</span>
 
-try:
-    import dowhy
-except ModuleNotFoundError:
-    sys.path.append(os.path.join(root_path, &quot;dowhy&quot;))
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">dowhy</span>
+<span class="k">except</span> <span class="ne">ModuleNotFoundError</span><span class="p">:</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">root_path</span><span class="p">,</span> <span class="s2">&quot;dowhy&quot;</span><span class="p">))</span>
 
-try:
-    import flaml
-except ModuleNotFoundError:
-    sys.path.append(os.path.join(root_path, &quot;FLAML&quot;))
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">flaml</span>
+<span class="k">except</span> <span class="ne">ModuleNotFoundError</span><span class="p">:</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">root_path</span><span class="p">,</span> <span class="s2">&quot;FLAML&quot;</span><span class="p">))</span>
 <br/></pre></div>
 </div>
 </div>
@@ -134,9 +134,9 @@ except ModuleNotFoundError:
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># this makes the notebook expand to full width of the browser window
-from IPython.core.display import display, HTML
-display(HTML(&quot;&lt;style&gt;.container { width:100% !important; }&lt;/style&gt;&quot;))
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># this makes the notebook expand to full width of the browser window</span>
+<span class="kn">from</span> <span class="nn">IPython.core.display</span> <span class="kn">import</span> <span class="n">display</span><span class="p">,</span> <span class="n">HTML</span>
+<span class="n">display</span><span class="p">(</span><span class="n">HTML</span><span class="p">(</span><span class="s2">&quot;&lt;style&gt;.container { width:100% !important; }&lt;/style&gt;&quot;</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -178,9 +178,9 @@ IPython.OutputArea.prototype._should_scroll = function(lines) {
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from causaltune import CausalTune
-from causaltune.datasets import synth_ihdp
-from causaltune.data_utils import CausalityDataset
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">causaltune</span> <span class="kn">import</span> <span class="n">CausalTune</span>
+<span class="kn">from</span> <span class="nn">causaltune.datasets</span> <span class="kn">import</span> <span class="n">synth_ihdp</span>
+<span class="kn">from</span> <span class="nn">causaltune.data_utils</span> <span class="kn">import</span> <span class="n">CausalityDataset</span>
 </pre></div>
 </div>
 </div>
@@ -193,9 +193,9 @@ from causaltune.data_utils import CausalityDataset
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># load toy dataset
-df = synth_ihdp(return_df=True)
-display(df.head())
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># load toy dataset</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">synth_ihdp</span><span class="p">(</span><span class="n">return_df</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
 </pre></div>
 </div>
 </div>
@@ -374,9 +374,9 @@ display(df.head())
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># split-off a hold-out set
-hold_out = df.sample(frac=0.2)
-train = df.drop(hold_out.index)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># split-off a hold-out set</span>
+<span class="n">hold_out</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">frac</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+<span class="n">train</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">hold_out</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -384,9 +384,9 @@ train = df.drop(hold_out.index)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># apply standard pre-processing to train set
-cd = CausalityDataset(data=train, treatment=&#39;treatment&#39;, outcomes=[&#39;y_factual&#39;])
-cd.preprocess_dataset()
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># apply standard pre-processing to train set</span>
+<span class="n">cd</span> <span class="o">=</span> <span class="n">CausalityDataset</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">train</span><span class="p">,</span> <span class="n">treatment</span><span class="o">=</span><span class="s1">&#39;treatment&#39;</span><span class="p">,</span> <span class="n">outcomes</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;y_factual&#39;</span><span class="p">])</span>
+<span class="n">cd</span><span class="o">.</span><span class="n">preprocess_dataset</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -395,8 +395,8 @@ cd.preprocess_dataset()
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># inspect the preprocessed dataset
-display(cd.data.head())
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># inspect the preprocessed dataset</span>
+<span class="n">display</span><span class="p">(</span><span class="n">cd</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
 </pre></div>
 </div>
 </div>
@@ -578,33 +578,33 @@ display(cd.data.head())
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># training configs
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># training configs</span>
 
-# choose estimators of interest
-estimator_list = [
-            # &quot;Dummy&quot;,
-            # &quot;SparseLinearDML&quot;,
-            # &quot;ForestDRLearner&quot;,
-            # &quot;TransformedOutcome&quot;,
-            &quot;CausalForestDML&quot;,
-            # &quot;.LinearDML&quot;,
-            # &quot;DomainAdaptationLearner&quot;,
-            &quot;SLearner&quot;,
-            &quot;XLearner&quot;,
-            # &quot;TLearner&quot;,
-            # &quot;Ortho&quot;
-    ]
+<span class="c1"># choose estimators of interest</span>
+<span class="n">estimator_list</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="c1"># &quot;Dummy&quot;,</span>
+            <span class="c1"># &quot;SparseLinearDML&quot;,</span>
+            <span class="c1"># &quot;ForestDRLearner&quot;,</span>
+            <span class="c1"># &quot;TransformedOutcome&quot;,</span>
+            <span class="s2">&quot;CausalForestDML&quot;</span><span class="p">,</span>
+            <span class="c1"># &quot;.LinearDML&quot;,</span>
+            <span class="c1"># &quot;DomainAdaptationLearner&quot;,</span>
+            <span class="s2">&quot;SLearner&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;XLearner&quot;</span><span class="p">,</span>
+            <span class="c1"># &quot;TLearner&quot;,</span>
+            <span class="c1"># &quot;Ortho&quot;</span>
+    <span class="p">]</span>
 
-# set evaluation metric
-metric = &quot;energy_distance&quot;
+<span class="c1"># set evaluation metric</span>
+<span class="n">metric</span> <span class="o">=</span> <span class="s2">&quot;energy_distance&quot;</span>
 
-# it&#39;s best to specify either time_budget or components_time_budget,
-# and let the other one be inferred; time in seconds
-time_budget = None
-components_time_budget = 10
+<span class="c1"># it&#39;s best to specify either time_budget or components_time_budget,</span>
+<span class="c1"># and let the other one be inferred; time in seconds</span>
+<span class="n">time_budget</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">components_time_budget</span> <span class="o">=</span> <span class="mi">10</span>
 
-# specify training set size
-train_size = 0.7
+<span class="c1"># specify training set size</span>
+<span class="n">train_size</span> <span class="o">=</span> <span class="mf">0.7</span>
 <br/></pre></div>
 </div>
 </div>
@@ -612,27 +612,27 @@ train_size = 0.7
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>ct = CausalTune(
-    estimator_list=estimator_list,
-    metric=metric,
-    verbose=0,
-    components_verbose=0,
-    time_budget=time_budget,
-    components_time_budget=components_time_budget,
-    train_size=train_size
-)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ct</span> <span class="o">=</span> <span class="n">CausalTune</span><span class="p">(</span>
+    <span class="n">estimator_list</span><span class="o">=</span><span class="n">estimator_list</span><span class="p">,</span>
+    <span class="n">metric</span><span class="o">=</span><span class="n">metric</span><span class="p">,</span>
+    <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+    <span class="n">components_verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+    <span class="n">time_budget</span><span class="o">=</span><span class="n">time_budget</span><span class="p">,</span>
+    <span class="n">components_time_budget</span><span class="o">=</span><span class="n">components_time_budget</span><span class="p">,</span>
+    <span class="n">train_size</span><span class="o">=</span><span class="n">train_size</span>
+<span class="p">)</span>
 
 
-# run causaltune
-ct.fit(data=cd, outcome=cd.outcomes[0])
+<span class="c1"># run causaltune</span>
+<span class="n">ct</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">cd</span><span class="p">,</span> <span class="n">outcome</span><span class="o">=</span><span class="n">cd</span><span class="o">.</span><span class="n">outcomes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 
-print(&#39;---------------------&#39;)
-# return best estimator
-print(f&quot;Best estimator: {ct.best_estimator}&quot;)
-# config of best estimator:
-print(f&quot;Best config: {ct.best_config}&quot;)
-# best score:
-print(f&quot;Best score: {ct.best_score}&quot;)
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;---------------------&#39;</span><span class="p">)</span>
+<span class="c1"># return best estimator</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Best estimator: </span><span class="si">{</span><span class="n">ct</span><span class="o">.</span><span class="n">best_estimator</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="c1"># config of best estimator:</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Best config: </span><span class="si">{</span><span class="n">ct</span><span class="o">.</span><span class="n">best_config</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="c1"># best score:</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Best score: </span><span class="si">{</span><span class="n">ct</span><span class="o">.</span><span class="n">best_score</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -656,10 +656,10 @@ Best score: 0.22739775773260096
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>cd_hold_out = CausalityDataset(data=hold_out, treatment=&#39;treatment&#39;, outcomes=[&#39;y_factual&#39;])
-cd_hold_out.preprocess_dataset()
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cd_hold_out</span> <span class="o">=</span> <span class="n">CausalityDataset</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">hold_out</span><span class="p">,</span> <span class="n">treatment</span><span class="o">=</span><span class="s1">&#39;treatment&#39;</span><span class="p">,</span> <span class="n">outcomes</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;y_factual&#39;</span><span class="p">])</span>
+<span class="n">cd_hold_out</span><span class="o">.</span><span class="n">preprocess_dataset</span><span class="p">()</span>
 
-ct.score_dataset(df=cd_hold_out.data, dataset_name=&#39;test&#39;)
+<span class="n">ct</span><span class="o">.</span><span class="n">score_dataset</span><span class="p">(</span><span class="n">df</span><span class="o">=</span><span class="n">cd_hold_out</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">dataset_name</span><span class="o">=</span><span class="s1">&#39;test&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -668,13 +668,13 @@ ct.score_dataset(df=cd_hold_out.data, dataset_name=&#39;test&#39;)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from causaltune.visualizer import Visualizer
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">causaltune.visualizer</span> <span class="kn">import</span> <span class="n">Visualizer</span>
 
-viz = Visualizer(
-    test_df=cd_hold_out.data,
-    treatment_col_name=cd.treatment,
-    outcome_col_name=cd.outcomes[0]
-)
+<span class="n">viz</span> <span class="o">=</span> <span class="n">Visualizer</span><span class="p">(</span>
+    <span class="n">test_df</span><span class="o">=</span><span class="n">cd_hold_out</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
+    <span class="n">treatment_col_name</span><span class="o">=</span><span class="n">cd</span><span class="o">.</span><span class="n">treatment</span><span class="p">,</span>
+    <span class="n">outcome_col_name</span><span class="o">=</span><span class="n">cd</span><span class="o">.</span><span class="n">outcomes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -682,20 +682,20 @@ viz = Visualizer(
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>%matplotlib inline
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
 
-# plotting metrics by estimator
+<span class="c1"># plotting metrics by estimator</span>
 
-figtitle = f&#39;{viz.outcome_col_name}&#39;
-figsize = (7,5)
-metrics = (&#39;energy_distance&#39;, &#39;ate&#39;)
+<span class="n">figtitle</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">viz</span><span class="o">.</span><span class="n">outcome_col_name</span><span class="si">}</span><span class="s1">&#39;</span>
+<span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">7</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">metrics</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;energy_distance&#39;</span><span class="p">,</span> <span class="s1">&#39;ate&#39;</span><span class="p">)</span>
 
-viz.plot_metrics_by_estimator(
-    scores_dict=ct.scores,
-    metrics=metrics,
-    figtitle=figtitle,
-    figsize=figsize
-)
+<span class="n">viz</span><span class="o">.</span><span class="n">plot_metrics_by_estimator</span><span class="p">(</span>
+    <span class="n">scores_dict</span><span class="o">=</span><span class="n">ct</span><span class="o">.</span><span class="n">scores</span><span class="p">,</span>
+    <span class="n">metrics</span><span class="o">=</span><span class="n">metrics</span><span class="p">,</span>
+    <span class="n">figtitle</span><span class="o">=</span><span class="n">figtitle</span><span class="p">,</span>
+    <span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -710,21 +710,21 @@ viz.plot_metrics_by_estimator(
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>%matplotlib inline
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
 
-# plotting shapley feature importances
-# sampling from test_df as calculation can take a while
-# optional: supply pre-computed shapley values by passing them as shaps=your_array
+<span class="c1"># plotting shapley feature importances</span>
+<span class="c1"># sampling from test_df as calculation can take a while</span>
+<span class="c1"># optional: supply pre-computed shapley values by passing them as shaps=your_array</span>
 
-use_df = cd_hold_out.data.sample(100)
-est = ct.model
-figtitle = &#39;Shapley feature importances&#39;
+<span class="n">use_df</span> <span class="o">=</span> <span class="n">cd_hold_out</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">est</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">model</span>
+<span class="n">figtitle</span> <span class="o">=</span> <span class="s1">&#39;Shapley feature importances&#39;</span>
 
-viz.plot_shap(
-    estimate=est,
-    df=use_df,
-    figtitle=figtitle
-)
+<span class="n">viz</span><span class="o">.</span><span class="n">plot_shap</span><span class="p">(</span>
+    <span class="n">estimate</span><span class="o">=</span><span class="n">est</span><span class="p">,</span>
+    <span class="n">df</span><span class="o">=</span><span class="n">use_df</span><span class="p">,</span>
+    <span class="n">figtitle</span><span class="o">=</span><span class="n">figtitle</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -747,16 +747,16 @@ Permutation explainer: 101it [00:17,  4.20it/s]
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>%matplotlib inline
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
 
-# plotting out-of sample difference of outcomes between treated and untreated
-# for the points where model predicts positive vs negative impact
+<span class="c1"># plotting out-of sample difference of outcomes between treated and untreated</span>
+<span class="c1"># for the points where model predicts positive vs negative impact</span>
 
-viz.plot_group_ate(
-    scorer=ct.scorer,
-    scores_dict=ct.scores,
-    estimator=ct.best_estimator
-)
+<span class="n">viz</span><span class="o">.</span><span class="n">plot_group_ate</span><span class="p">(</span>
+    <span class="n">scorer</span><span class="o">=</span><span class="n">ct</span><span class="o">.</span><span class="n">scorer</span><span class="p">,</span>
+    <span class="n">scores_dict</span><span class="o">=</span><span class="n">ct</span><span class="o">.</span><span class="n">scores</span><span class="p">,</span>
+    <span class="n">estimator</span><span class="o">=</span><span class="n">ct</span><span class="o">.</span><span class="n">best_estimator</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -775,30 +775,30 @@ viz.plot_group_ate(
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from sklearn.linear_model import LinearRegression
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span>
 
-ct = CausalTune(
-    outcome_model=LinearRegression(),
-    estimator_list=estimator_list,
-    metric=metric,
-    verbose=0,
-    components_verbose=0,
-    time_budget=time_budget,
-    components_time_budget=components_time_budget,
-    train_size=train_size
-)
+<span class="n">ct</span> <span class="o">=</span> <span class="n">CausalTune</span><span class="p">(</span>
+    <span class="n">outcome_model</span><span class="o">=</span><span class="n">LinearRegression</span><span class="p">(),</span>
+    <span class="n">estimator_list</span><span class="o">=</span><span class="n">estimator_list</span><span class="p">,</span>
+    <span class="n">metric</span><span class="o">=</span><span class="n">metric</span><span class="p">,</span>
+    <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+    <span class="n">components_verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+    <span class="n">time_budget</span><span class="o">=</span><span class="n">time_budget</span><span class="p">,</span>
+    <span class="n">components_time_budget</span><span class="o">=</span><span class="n">components_time_budget</span><span class="p">,</span>
+    <span class="n">train_size</span><span class="o">=</span><span class="n">train_size</span>
+<span class="p">)</span>
 
 
-# run causaltune
-ct.fit(data=cd, outcome=cd.outcomes[0])
+<span class="c1"># run causaltune</span>
+<span class="n">ct</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">cd</span><span class="p">,</span> <span class="n">outcome</span><span class="o">=</span><span class="n">cd</span><span class="o">.</span><span class="n">outcomes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 
-print(&#39;---------------------&#39;)
-# return best estimator
-print(f&quot;Best estimator: {ct.best_estimator}&quot;)
-# config of best estimator:
-print(f&quot;Best config: {ct.best_config}&quot;)
-# best score:
-print(f&quot;Best score: {ct.best_score}&quot;)
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;---------------------&#39;</span><span class="p">)</span>
+<span class="c1"># return best estimator</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Best estimator: </span><span class="si">{</span><span class="n">ct</span><span class="o">.</span><span class="n">best_estimator</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="c1"># config of best estimator:</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Best config: </span><span class="si">{</span><span class="n">ct</span><span class="o">.</span><span class="n">best_config</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="c1"># best score:</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Best score: </span><span class="si">{</span><span class="n">ct</span><span class="o">.</span><span class="n">best_score</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>

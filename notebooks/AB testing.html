@@ -102,38 +102,38 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import os
-import sys
-import pandas as pd
-import numpy as np
-import warnings
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
 
-from sklearn.ensemble import RandomForestRegressor
-from sklearn.metrics import mean_squared_error
+<span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">RandomForestRegressor</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">mean_squared_error</span>
 
-import gc
+<span class="kn">import</span> <span class="nn">gc</span>
 
-root_path = root_path = os.path.realpath(&#39;../..&#39;)
-try:
-    import causaltune
-except ModuleNotFoundError:
-    sys.path.append(os.path.join(root_path, &quot;causaltune&quot;))
+<span class="n">root_path</span> <span class="o">=</span> <span class="n">root_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">realpath</span><span class="p">(</span><span class="s1">&#39;../..&#39;</span><span class="p">)</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">causaltune</span>
+<span class="k">except</span> <span class="ne">ModuleNotFoundError</span><span class="p">:</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">root_path</span><span class="p">,</span> <span class="s2">&quot;causaltune&quot;</span><span class="p">))</span>
 
-from causaltune import CausalTune
-from causaltune.data_utils import CausalityDataset
-from causaltune.datasets import generate_synth_data_with_categories
+<span class="kn">from</span> <span class="nn">causaltune</span> <span class="kn">import</span> <span class="n">CausalTune</span>
+<span class="kn">from</span> <span class="nn">causaltune.data_utils</span> <span class="kn">import</span> <span class="n">CausalityDataset</span>
+<span class="kn">from</span> <span class="nn">causaltune.datasets</span> <span class="kn">import</span> <span class="n">generate_synth_data_with_categories</span>
 
-from flaml import AutoML
-import matplotlib.pyplot as plt
-%pip install seaborn as sns
-import seaborn as sns
-%matplotlib inline
+<span class="kn">from</span> <span class="nn">flaml</span> <span class="kn">import</span> <span class="n">AutoML</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="o">%</span><span class="k">pip</span> install seaborn as sns
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
 
-warnings.filterwarnings(&quot;ignore&quot;)
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
 
-%pip install plotly
-import plotly.io as pio
-pio.renderers.default = &quot;png&quot;
+<span class="o">%</span><span class="k">pip</span> install plotly
+<span class="kn">import</span> <span class="nn">plotly.io</span> <span class="k">as</span> <span class="nn">pio</span>
+<span class="n">pio</span><span class="o">.</span><span class="n">renderers</span><span class="o">.</span><span class="n">default</span> <span class="o">=</span> <span class="s2">&quot;png&quot;</span>
 </pre></div>
 </div>
 </div>
@@ -152,7 +152,7 @@ The autoreload extension is already loaded. To reload it, use:
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>%pip install wise_pizza
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">pip</span> install wise_pizza
 </pre></div>
 </div>
 </div>
@@ -160,7 +160,7 @@ The autoreload extension is already loaded. To reload it, use:
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import wise_pizza as wp
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">wise_pizza</span> <span class="k">as</span> <span class="nn">wp</span>
 </pre></div>
 </div>
 </div>
@@ -183,10 +183,10 @@ The autoreload extension is already loaded. To reload it, use:
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>TRUE_EFFECT = 0.1
-cd = generate_synth_data_with_categories(n_samples=8000, n_x=3, true_effect=TRUE_EFFECT)
-cd.preprocess_dataset()
-sns.ecdfplot(data=cd.data, x=cd.outcomes[0], hue=cd.treatment)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">TRUE_EFFECT</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="n">cd</span> <span class="o">=</span> <span class="n">generate_synth_data_with_categories</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">8000</span><span class="p">,</span> <span class="n">n_x</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">true_effect</span><span class="o">=</span><span class="n">TRUE_EFFECT</span><span class="p">)</span>
+<span class="n">cd</span><span class="o">.</span><span class="n">preprocess_dataset</span><span class="p">()</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">ecdfplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">cd</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">cd</span><span class="o">.</span><span class="n">outcomes</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">hue</span><span class="o">=</span><span class="n">cd</span><span class="o">.</span><span class="n">treatment</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -212,12 +212,12 @@ sns.ecdfplot(data=cd.data, x=cd.outcomes[0], hue=cd.treatment)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># CausalTune configuration
-num_samples = 5
-components_time_budget = 10
-train_size = 0.7
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># CausalTune configuration</span>
+<span class="n">num_samples</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">components_time_budget</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">train_size</span> <span class="o">=</span> <span class="mf">0.7</span>
 
-target = cd.outcomes[0]
+<span class="n">target</span> <span class="o">=</span> <span class="n">cd</span><span class="o">.</span><span class="n">outcomes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -225,15 +225,15 @@ target = cd.outcomes[0]
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>ct_ab = CausalTune(
-    num_samples=num_samples,
-    components_time_budget=components_time_budget,
-    metric=&quot;energy_distance&quot;,
-    verbose=3,
-    components_verbose=3,
-    train_size=train_size,
-)
-ct_ab.fit(data=cd, outcome=target)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ct_ab</span> <span class="o">=</span> <span class="n">CausalTune</span><span class="p">(</span>
+    <span class="n">num_samples</span><span class="o">=</span><span class="n">num_samples</span><span class="p">,</span>
+    <span class="n">components_time_budget</span><span class="o">=</span><span class="n">components_time_budget</span><span class="p">,</span>
+    <span class="n">metric</span><span class="o">=</span><span class="s2">&quot;energy_distance&quot;</span><span class="p">,</span>
+    <span class="n">verbose</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+    <span class="n">components_verbose</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+    <span class="n">train_size</span><span class="o">=</span><span class="n">train_size</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">ct_ab</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">cd</span><span class="p">,</span> <span class="n">outcome</span><span class="o">=</span><span class="n">target</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -242,9 +242,9 @@ ct_ab.fit(data=cd, outcome=target)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[178]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>print(f&#39;Difference in means estimate (naive ATE): {ct_ab.scorer.naive_ate(ct_ab.test_df[cd.treatment], ct_ab.test_df[target])[0]:5f}&#39;)
-print(f&#39;CausalTune ATE estimate:: {ct_ab.effect(ct_ab.test_df).mean():5f}&#39;)
-print(f&#39;True ATE: {TRUE_EFFECT}&#39;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Difference in means estimate (naive ATE): </span><span class="si">{</span><span class="n">ct_ab</span><span class="o">.</span><span class="n">scorer</span><span class="o">.</span><span class="n">naive_ate</span><span class="p">(</span><span class="n">ct_ab</span><span class="o">.</span><span class="n">test_df</span><span class="p">[</span><span class="n">cd</span><span class="o">.</span><span class="n">treatment</span><span class="p">],</span><span class="w"> </span><span class="n">ct_ab</span><span class="o">.</span><span class="n">test_df</span><span class="p">[</span><span class="n">target</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s1">5f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;CausalTune ATE estimate:: </span><span class="si">{</span><span class="n">ct_ab</span><span class="o">.</span><span class="n">effect</span><span class="p">(</span><span class="n">ct_ab</span><span class="o">.</span><span class="n">test_df</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s1">5f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;True ATE: </span><span class="si">{</span><span class="n">TRUE_EFFECT</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -267,8 +267,8 @@ True ATE: 0.1
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>automl = AutoML()
-automl.fit(ct_ab.train_df[ct_ab.train_df.columns.drop([target])], ct_ab.train_df[target], task=&#39;regression&#39;, time_budget=30)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">automl</span> <span class="o">=</span> <span class="n">AutoML</span><span class="p">()</span>
+<span class="n">automl</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">ct_ab</span><span class="o">.</span><span class="n">train_df</span><span class="p">[</span><span class="n">ct_ab</span><span class="o">.</span><span class="n">train_df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="n">target</span><span class="p">])],</span> <span class="n">ct_ab</span><span class="o">.</span><span class="n">train_df</span><span class="p">[</span><span class="n">target</span><span class="p">],</span> <span class="n">task</span><span class="o">=</span><span class="s1">&#39;regression&#39;</span><span class="p">,</span> <span class="n">time_budget</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -276,11 +276,11 @@ automl.fit(ct_ab.train_df[ct_ab.train_df.columns.drop([target])], ct_ab.train_df
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[183]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Fraction of variation unexplained
-mse = mean_squared_error(automl.predict(ct_ab.test_df[ct_ab.test_df.columns.drop([target])]), ct_ab.test_df[target])
-var_y = ct_ab.test_df[target].var()
-fvu = mse / var_y
-print(f&#39;Variation unexplained: {100*fvu:.2f}%&#39;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Fraction of variation unexplained</span>
+<span class="n">mse</span> <span class="o">=</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">automl</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">ct_ab</span><span class="o">.</span><span class="n">test_df</span><span class="p">[</span><span class="n">ct_ab</span><span class="o">.</span><span class="n">test_df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="n">target</span><span class="p">])]),</span> <span class="n">ct_ab</span><span class="o">.</span><span class="n">test_df</span><span class="p">[</span><span class="n">target</span><span class="p">])</span>
+<span class="n">var_y</span> <span class="o">=</span> <span class="n">ct_ab</span><span class="o">.</span><span class="n">test_df</span><span class="p">[</span><span class="n">target</span><span class="p">]</span><span class="o">.</span><span class="n">var</span><span class="p">()</span>
+<span class="n">fvu</span> <span class="o">=</span> <span class="n">mse</span> <span class="o">/</span> <span class="n">var_y</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Variation unexplained: </span><span class="si">{</span><span class="mi">100</span><span class="o">*</span><span class="n">fvu</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">%&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -299,18 +299,18 @@ Variation unexplained: 8.19%
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[165]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># bootstrap configuration
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># bootstrap configuration</span>
 
-n_samples = 30
-n_sample_size = cd.data.shape[0]
+<span class="n">n_samples</span> <span class="o">=</span> <span class="mi">30</span>
+<span class="n">n_sample_size</span> <span class="o">=</span> <span class="n">cd</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
-components_time_budget = 5
-train_size = .7
-num_samples= 10
+<span class="n">components_time_budget</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">train_size</span> <span class="o">=</span> <span class="mf">.7</span>
+<span class="n">num_samples</span><span class="o">=</span> <span class="mi">10</span>
 
-ct_ate = []
-scores = []
-naive_ate = []
+<span class="n">ct_ate</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">scores</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">naive_ate</span> <span class="o">=</span> <span class="p">[]</span>
 </pre></div>
 </div>
 </div>
@@ -318,27 +318,27 @@ naive_ate = []
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>for _ in range(n_samples):
-    cd_bt = generate_synth_data_with_categories(n_samples=5000, n_x=3, true_effect=TRUE_EFFECT)
-    cd_bt.preprocess_dataset()
-    outcome_regressor = RandomForestRegressor()
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_samples</span><span class="p">):</span>
+    <span class="n">cd_bt</span> <span class="o">=</span> <span class="n">generate_synth_data_with_categories</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">n_x</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">true_effect</span><span class="o">=</span><span class="n">TRUE_EFFECT</span><span class="p">)</span>
+    <span class="n">cd_bt</span><span class="o">.</span><span class="n">preprocess_dataset</span><span class="p">()</span>
+    <span class="n">outcome_regressor</span> <span class="o">=</span> <span class="n">RandomForestRegressor</span><span class="p">()</span>
 
-    ct = CausalTune(
-        num_samples=num_samples,
-        components_time_budget=components_time_budget,
-        metric=&quot;energy_distance&quot;,
-        train_size=train_size,
-        propensity_model=&#39;dummy&#39;,
-        outcome_model=outcome_regressor
-        )
+    <span class="n">ct</span> <span class="o">=</span> <span class="n">CausalTune</span><span class="p">(</span>
+        <span class="n">num_samples</span><span class="o">=</span><span class="n">num_samples</span><span class="p">,</span>
+        <span class="n">components_time_budget</span><span class="o">=</span><span class="n">components_time_budget</span><span class="p">,</span>
+        <span class="n">metric</span><span class="o">=</span><span class="s2">&quot;energy_distance&quot;</span><span class="p">,</span>
+        <span class="n">train_size</span><span class="o">=</span><span class="n">train_size</span><span class="p">,</span>
+        <span class="n">propensity_model</span><span class="o">=</span><span class="s1">&#39;dummy&#39;</span><span class="p">,</span>
+        <span class="n">outcome_model</span><span class="o">=</span><span class="n">outcome_regressor</span>
+        <span class="p">)</span>
 
-    ct.fit(data=cd, outcome=target)
+    <span class="n">ct</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">cd</span><span class="p">,</span> <span class="n">outcome</span><span class="o">=</span><span class="n">target</span><span class="p">)</span>
 
-    ct_ate.append(ct.effect(ct.test_df).mean())
-    scores.append(ct.best_score)
-    naive_ate.append(ct.scorer.naive_ate(cd_bt.data[cd_bt.treatment], cd_bt.data[target])[0])
-    del ct, cd_bt, outcome_regressor
-    gc.collect()
+    <span class="n">ct_ate</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">effect</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">test_df</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
+    <span class="n">scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">best_score</span><span class="p">)</span>
+    <span class="n">naive_ate</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">scorer</span><span class="o">.</span><span class="n">naive_ate</span><span class="p">(</span><span class="n">cd_bt</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">cd_bt</span><span class="o">.</span><span class="n">treatment</span><span class="p">],</span> <span class="n">cd_bt</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">target</span><span class="p">])[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="k">del</span> <span class="n">ct</span><span class="p">,</span> <span class="n">cd_bt</span><span class="p">,</span> <span class="n">outcome_regressor</span>
+    <span class="n">gc</span><span class="o">.</span><span class="n">collect</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -346,12 +346,12 @@ naive_ate = []
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[187]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fig, ax = plt.subplots()
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
 
-ax.boxplot([ct_ate, naive_ate])
-ax.set_xticklabels([&#39;$\hat{\mu}_{CausalTune}$&#39;, &#39;$\hat{\mu}_{DiffInMeans}$&#39;])
-plt.axhline(y = TRUE_EFFECT, color = &#39;b&#39;, linestyle = &#39;--&#39;)
-plt.show()
+<span class="n">ax</span><span class="o">.</span><span class="n">boxplot</span><span class="p">([</span><span class="n">ct_ate</span><span class="p">,</span> <span class="n">naive_ate</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">([</span><span class="s1">&#39;$\hat{\mu}_</span><span class="si">{CausalTune}</span><span class="s1">$&#39;</span><span class="p">,</span> <span class="s1">&#39;$\hat{\mu}_</span><span class="si">{DiffInMeans}</span><span class="s1">$&#39;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">y</span> <span class="o">=</span> <span class="n">TRUE_EFFECT</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">linestyle</span> <span class="o">=</span> <span class="s1">&#39;--&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -372,11 +372,11 @@ plt.show()
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>segments = list(set(cd.data.columns) - set([cd.treatment]) - set(cd.outcomes) - set([&#39;random&#39;]) - set([&#39;X_continuous&#39;]))
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">segments</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">cd</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span> <span class="o">-</span> <span class="nb">set</span><span class="p">([</span><span class="n">cd</span><span class="o">.</span><span class="n">treatment</span><span class="p">])</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">cd</span><span class="o">.</span><span class="n">outcomes</span><span class="p">)</span> <span class="o">-</span> <span class="nb">set</span><span class="p">([</span><span class="s1">&#39;random&#39;</span><span class="p">])</span> <span class="o">-</span> <span class="nb">set</span><span class="p">([</span><span class="s1">&#39;X_continuous&#39;</span><span class="p">]))</span>
 
-df_effects = ct_ab.test_df[segments + [cd.treatment]]
-df_effects[&#39;CATE&#39;] = ct_ab.effect(ct_ab.test_df)
-df_eff_by_seg = df_effects.groupby(by=segments, as_index=False).agg({&#39;CATE&#39;:&#39;sum&#39;, &#39;variant&#39;: len}).rename(columns={&#39;variant&#39;: &#39;size&#39;})
+<span class="n">df_effects</span> <span class="o">=</span> <span class="n">ct_ab</span><span class="o">.</span><span class="n">test_df</span><span class="p">[</span><span class="n">segments</span> <span class="o">+</span> <span class="p">[</span><span class="n">cd</span><span class="o">.</span><span class="n">treatment</span><span class="p">]]</span>
+<span class="n">df_effects</span><span class="p">[</span><span class="s1">&#39;CATE&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ct_ab</span><span class="o">.</span><span class="n">effect</span><span class="p">(</span><span class="n">ct_ab</span><span class="o">.</span><span class="n">test_df</span><span class="p">)</span>
+<span class="n">df_eff_by_seg</span> <span class="o">=</span> <span class="n">df_effects</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="n">segments</span><span class="p">,</span> <span class="n">as_index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">agg</span><span class="p">({</span><span class="s1">&#39;CATE&#39;</span><span class="p">:</span><span class="s1">&#39;sum&#39;</span><span class="p">,</span> <span class="s1">&#39;variant&#39;</span><span class="p">:</span> <span class="nb">len</span><span class="p">})</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;variant&#39;</span><span class="p">:</span> <span class="s1">&#39;size&#39;</span><span class="p">})</span>
 </pre></div>
 </div>
 </div>
@@ -384,18 +384,18 @@ df_eff_by_seg = df_effects.groupby(by=segments, as_index=False).agg({&#39;CATE&#
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[35]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>max_depth = 3
-min_segments = 3
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">max_depth</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="n">min_segments</span> <span class="o">=</span> <span class="mi">3</span>
 
-sf = wp.explain_levels(
-    df=df_eff_by_seg,
-    dims=segments,
-    total_name=&#39;CATE&#39;,
-    size_name=&#39;size&#39;,
-    max_depth=max_depth,
-    min_segments=min_segments,
-)
-sf.plot(plot_is_static=False)
+<span class="n">sf</span> <span class="o">=</span> <span class="n">wp</span><span class="o">.</span><span class="n">explain_levels</span><span class="p">(</span>
+    <span class="n">df</span><span class="o">=</span><span class="n">df_eff_by_seg</span><span class="p">,</span>
+    <span class="n">dims</span><span class="o">=</span><span class="n">segments</span><span class="p">,</span>
+    <span class="n">total_name</span><span class="o">=</span><span class="s1">&#39;CATE&#39;</span><span class="p">,</span>
+    <span class="n">size_name</span><span class="o">=</span><span class="s1">&#39;size&#39;</span><span class="p">,</span>
+    <span class="n">max_depth</span><span class="o">=</span><span class="n">max_depth</span><span class="p">,</span>
+    <span class="n">min_segments</span><span class="o">=</span><span class="n">min_segments</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">sf</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">plot_is_static</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>

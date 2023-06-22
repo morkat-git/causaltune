@@ -98,36 +98,36 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>%load_ext autoreload
-%autoreload 2
-import os, sys
-import warnings
-warnings.filterwarnings(&#39;ignore&#39;) # suppress sklearn deprecation warnings for now..
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">load_ext</span> autoreload
+<span class="o">%</span><span class="k">autoreload</span> 2
+<span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span> <span class="c1"># suppress sklearn deprecation warnings for now..</span>
 
-import pandas as pd
-import numpy as np
-from sklearn.model_selection import train_test_split
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
 
-# the below checks for whether we run dowhy, causaltune, and FLAML from source
-root_path = root_path = os.path.realpath(&#39;../..&#39;)
-try:
-    import causaltune
-except ModuleNotFoundError:
-    sys.path.append(os.path.join(root_path, &quot;causaltune&quot;))
+<span class="c1"># the below checks for whether we run dowhy, causaltune, and FLAML from source</span>
+<span class="n">root_path</span> <span class="o">=</span> <span class="n">root_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">realpath</span><span class="p">(</span><span class="s1">&#39;../..&#39;</span><span class="p">)</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">causaltune</span>
+<span class="k">except</span> <span class="ne">ModuleNotFoundError</span><span class="p">:</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">root_path</span><span class="p">,</span> <span class="s2">&quot;causaltune&quot;</span><span class="p">))</span>
 
-try:
-    import dowhy
-except ModuleNotFoundError:
-    sys.path.append(os.path.join(root_path, &quot;dowhy&quot;))
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">dowhy</span>
+<span class="k">except</span> <span class="ne">ModuleNotFoundError</span><span class="p">:</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">root_path</span><span class="p">,</span> <span class="s2">&quot;dowhy&quot;</span><span class="p">))</span>
 
-try:
-    import flaml
-except ModuleNotFoundError:
-    sys.path.append(os.path.join(root_path, &quot;FLAML&quot;))
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">flaml</span>
+<span class="k">except</span> <span class="ne">ModuleNotFoundError</span><span class="p">:</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">root_path</span><span class="p">,</span> <span class="s2">&quot;FLAML&quot;</span><span class="p">))</span>
 
-from causaltune import CausalTune
-from causaltune.datasets import generate_non_random_dataset
-from causaltune.erupt import DummyPropensity, ERUPT
+<span class="kn">from</span> <span class="nn">causaltune</span> <span class="kn">import</span> <span class="n">CausalTune</span>
+<span class="kn">from</span> <span class="nn">causaltune.datasets</span> <span class="kn">import</span> <span class="n">generate_non_random_dataset</span>
+<span class="kn">from</span> <span class="nn">causaltune.erupt</span> <span class="kn">import</span> <span class="n">DummyPropensity</span><span class="p">,</span> <span class="n">ERUPT</span>
 <br/></pre></div>
 </div>
 </div>
@@ -135,9 +135,9 @@ from causaltune.erupt import DummyPropensity, ERUPT
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># this makes the notebook expand to full width of the browser window
-from IPython.core.display import display, HTML
-display(HTML(&quot;&lt;style&gt;.container { width:100% !important; }&lt;/style&gt;&quot;))
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># this makes the notebook expand to full width of the browser window</span>
+<span class="kn">from</span> <span class="nn">IPython.core.display</span> <span class="kn">import</span> <span class="n">display</span><span class="p">,</span> <span class="n">HTML</span>
+<span class="n">display</span><span class="p">(</span><span class="n">HTML</span><span class="p">(</span><span class="s2">&quot;&lt;style&gt;.container { width:100% !important; }&lt;/style&gt;&quot;</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -181,9 +181,9 @@ IPython.OutputArea.prototype._should_scroll = function(lines) {
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># load toy dataset with non-random assignment and apply standard pre-processing
-cd = generate_non_random_dataset()
-cd.preprocess_dataset()
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># load toy dataset with non-random assignment and apply standard pre-processing</span>
+<span class="n">cd</span> <span class="o">=</span> <span class="n">generate_non_random_dataset</span><span class="p">()</span>
+<span class="n">cd</span><span class="o">.</span><span class="n">preprocess_dataset</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -191,7 +191,7 @@ cd.preprocess_dataset()
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>display(cd.data.head())
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="n">cd</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
 </pre></div>
 </div>
 </div>
@@ -297,18 +297,18 @@ cd.preprocess_dataset()
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># training configs
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># training configs</span>
 
-# set evaluation metric
-metric = &quot;energy_distance&quot;
+<span class="c1"># set evaluation metric</span>
+<span class="n">metric</span> <span class="o">=</span> <span class="s2">&quot;energy_distance&quot;</span>
 
-# it&#39;s best to specify either time_budget or components_time_budget,
-# and let the other one be inferred; time in seconds
-time_budget = None
-components_time_budget = 10
+<span class="c1"># it&#39;s best to specify either time_budget or components_time_budget,</span>
+<span class="c1"># and let the other one be inferred; time in seconds</span>
+<span class="n">time_budget</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">components_time_budget</span> <span class="o">=</span> <span class="mi">10</span>
 
-# specify training set size
-train_size = 0.7
+<span class="c1"># specify training set size</span>
+<span class="n">train_size</span> <span class="o">=</span> <span class="mf">0.7</span>
 </pre></div>
 </div>
 </div>
@@ -316,27 +316,27 @@ train_size = 0.7
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>ct = CausalTune(
-    estimator_list=[&quot;CausalForestDML&quot;, &quot;XLearner&quot;],
-    metric=metric,
-    verbose=0,
-    components_verbose=0,
-    time_budget=time_budget,
-    components_time_budget=components_time_budget,
-    train_size=train_size
-)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ct</span> <span class="o">=</span> <span class="n">CausalTune</span><span class="p">(</span>
+    <span class="n">estimator_list</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;CausalForestDML&quot;</span><span class="p">,</span> <span class="s2">&quot;XLearner&quot;</span><span class="p">],</span>
+    <span class="n">metric</span><span class="o">=</span><span class="n">metric</span><span class="p">,</span>
+    <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+    <span class="n">components_verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+    <span class="n">time_budget</span><span class="o">=</span><span class="n">time_budget</span><span class="p">,</span>
+    <span class="n">components_time_budget</span><span class="o">=</span><span class="n">components_time_budget</span><span class="p">,</span>
+    <span class="n">train_size</span><span class="o">=</span><span class="n">train_size</span>
+<span class="p">)</span>
 
 
-# run causaltune
-ct.fit(data=cd, outcome=cd.outcomes[0])
+<span class="c1"># run causaltune</span>
+<span class="n">ct</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">cd</span><span class="p">,</span> <span class="n">outcome</span><span class="o">=</span><span class="n">cd</span><span class="o">.</span><span class="n">outcomes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 
-print(&#39;---------------------&#39;)
-# return best estimator
-print(f&quot;Best estimator: {ct.best_estimator}&quot;)
-# config of best estimator:
-print(f&quot;Best config: {ct.best_config}&quot;)
-# best score:
-print(f&quot;Best score: {ct.best_score}&quot;)
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;---------------------&#39;</span><span class="p">)</span>
+<span class="c1"># return best estimator</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Best estimator: </span><span class="si">{</span><span class="n">ct</span><span class="o">.</span><span class="n">best_estimator</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="c1"># config of best estimator:</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Best config: </span><span class="si">{</span><span class="n">ct</span><span class="o">.</span><span class="n">best_config</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="c1"># best score:</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Best score: </span><span class="si">{</span><span class="n">ct</span><span class="o">.</span><span class="n">best_score</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -361,7 +361,7 @@ Best score: 0.20444383297534108
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>use_df = ct.test_df
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">use_df</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">test_df</span>
 </pre></div>
 </div>
 </div>
@@ -369,29 +369,29 @@ Best score: 0.20444383297534108
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># computing mean ERUPT over 10 bootstrapped samples
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># computing mean ERUPT over 10 bootstrapped samples</span>
 
-scores_list = []
+<span class="n">scores_list</span> <span class="o">=</span> <span class="p">[]</span>
 
-for i in range(10):
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
 
-    bootstrap_df = use_df.sample(frac=1, replace=True)
-    propensities = bootstrap_df[&#39;propensity&#39;]
-    actual_treatment = bootstrap_df[&#39;T&#39;]
-    outcome = bootstrap_df[&#39;Y&#39;]
+    <span class="n">bootstrap_df</span> <span class="o">=</span> <span class="n">use_df</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">frac</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">propensities</span> <span class="o">=</span> <span class="n">bootstrap_df</span><span class="p">[</span><span class="s1">&#39;propensity&#39;</span><span class="p">]</span>
+    <span class="n">actual_treatment</span> <span class="o">=</span> <span class="n">bootstrap_df</span><span class="p">[</span><span class="s1">&#39;T&#39;</span><span class="p">]</span>
+    <span class="n">outcome</span> <span class="o">=</span> <span class="n">bootstrap_df</span><span class="p">[</span><span class="s1">&#39;Y&#39;</span><span class="p">]</span>
 
-    # define the random assignment policy
-    random_policy = np.random.randint(0,2, size=len(bootstrap_df))
+    <span class="c1"># define the random assignment policy</span>
+    <span class="n">random_policy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">bootstrap_df</span><span class="p">))</span>
 
-    # define a propensity model that will simply return the propensities when calling predict_proba
-    propensity_model = DummyPropensity(p=propensities, treatment=actual_treatment)
+    <span class="c1"># define a propensity model that will simply return the propensities when calling predict_proba</span>
+    <span class="n">propensity_model</span> <span class="o">=</span> <span class="n">DummyPropensity</span><span class="p">(</span><span class="n">p</span><span class="o">=</span><span class="n">propensities</span><span class="p">,</span> <span class="n">treatment</span><span class="o">=</span><span class="n">actual_treatment</span><span class="p">)</span>
 
-    # obtain ERUPT under random policy
-    e = ERUPT(treatment_name=&#39;T&#39;, propensity_model=propensity_model)
-    scores_list.append(e.score(df=use_df,outcome=outcome,policy=random_policy))
+    <span class="c1"># obtain ERUPT under random policy</span>
+    <span class="n">e</span> <span class="o">=</span> <span class="n">ERUPT</span><span class="p">(</span><span class="n">treatment_name</span><span class="o">=</span><span class="s1">&#39;T&#39;</span><span class="p">,</span> <span class="n">propensity_model</span><span class="o">=</span><span class="n">propensity_model</span><span class="p">)</span>
+    <span class="n">scores_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">df</span><span class="o">=</span><span class="n">use_df</span><span class="p">,</span><span class="n">outcome</span><span class="o">=</span><span class="n">outcome</span><span class="p">,</span><span class="n">policy</span><span class="o">=</span><span class="n">random_policy</span><span class="p">))</span>
 
-erupt_mean = np.mean(scores_list)
-erupt_sd = np.std(scores_list)
+<span class="n">erupt_mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">scores_list</span><span class="p">)</span>
+<span class="n">erupt_sd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">scores_list</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -399,8 +399,8 @@ erupt_sd = np.std(scores_list)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># compute naive ate as difference in means
-naive_ate, naive_sd, _ = ct.scorer.naive_ate(ct.test_df[&#39;T&#39;], ct.test_df[&#39;Y&#39;])
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># compute naive ate as difference in means</span>
+<span class="n">naive_ate</span><span class="p">,</span> <span class="n">naive_sd</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">scorer</span><span class="o">.</span><span class="n">naive_ate</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">test_df</span><span class="p">[</span><span class="s1">&#39;T&#39;</span><span class="p">],</span> <span class="n">ct</span><span class="o">.</span><span class="n">test_df</span><span class="p">[</span><span class="s1">&#39;Y&#39;</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -408,9 +408,9 @@ naive_ate, naive_sd, _ = ct.scorer.naive_ate(ct.test_df[&#39;T&#39;], ct.test_df
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># comparison of naive ate to mean random erupt over 10 bootstrap runs
-erupt_df = pd.DataFrame([[naive_ate,naive_sd],[erupt_mean,erupt_sd]], columns=[&#39;estimated_effect&#39;, &#39;sd&#39;], index=[&#39;naive_ate&#39;,&#39;random_erupt&#39;])
-display(erupt_df)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># comparison of naive ate to mean random erupt over 10 bootstrap runs</span>
+<span class="n">erupt_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([[</span><span class="n">naive_ate</span><span class="p">,</span><span class="n">naive_sd</span><span class="p">],[</span><span class="n">erupt_mean</span><span class="p">,</span><span class="n">erupt_sd</span><span class="p">]],</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;estimated_effect&#39;</span><span class="p">,</span> <span class="s1">&#39;sd&#39;</span><span class="p">],</span> <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;naive_ate&#39;</span><span class="p">,</span><span class="s1">&#39;random_erupt&#39;</span><span class="p">])</span>
+<span class="n">display</span><span class="p">(</span><span class="n">erupt_df</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>

@@ -103,37 +103,37 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[63]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import os
-import sys
-import numpy as np
-import warnings
-import pandas as pd
-import matplotlib
-import matplotlib.pyplot as plt
-from typing import List
-import dcor
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
+<span class="kn">import</span> <span class="nn">dcor</span>
 
 
-root_path = root_path = os.path.realpath(&#39;../..&#39;)
-try:
-    import causaltune
-except ModuleNotFoundError:
-    sys.path.append(os.path.join(root_path, &quot;causaltune&quot;))
+<span class="n">root_path</span> <span class="o">=</span> <span class="n">root_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">realpath</span><span class="p">(</span><span class="s1">&#39;../..&#39;</span><span class="p">)</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">causaltune</span>
+<span class="k">except</span> <span class="ne">ModuleNotFoundError</span><span class="p">:</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">root_path</span><span class="p">,</span> <span class="s2">&quot;causaltune&quot;</span><span class="p">))</span>
 
-from dowhy import CausalModel
+<span class="kn">from</span> <span class="nn">dowhy</span> <span class="kn">import</span> <span class="n">CausalModel</span>
 
 
-from causaltune import CausalTune
-from causaltune.datasets import iv_dgp_econml
-from causaltune.scoring import Scorer
-from causaltune.datasets import iv_dgp_econml
-from causaltune.params import SimpleParamService
-from causaltune.utils import treatment_is_multivalue
+<span class="kn">from</span> <span class="nn">causaltune</span> <span class="kn">import</span> <span class="n">CausalTune</span>
+<span class="kn">from</span> <span class="nn">causaltune.datasets</span> <span class="kn">import</span> <span class="n">iv_dgp_econml</span>
+<span class="kn">from</span> <span class="nn">causaltune.scoring</span> <span class="kn">import</span> <span class="n">Scorer</span>
+<span class="kn">from</span> <span class="nn">causaltune.datasets</span> <span class="kn">import</span> <span class="n">iv_dgp_econml</span>
+<span class="kn">from</span> <span class="nn">causaltune.params</span> <span class="kn">import</span> <span class="n">SimpleParamService</span>
+<span class="kn">from</span> <span class="nn">causaltune.utils</span> <span class="kn">import</span> <span class="n">treatment_is_multivalue</span>
 
-warnings.filterwarnings(&quot;ignore&quot;)
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
 
-%load_ext autoreload
-%autoreload 2
+<span class="o">%</span><span class="k">load_ext</span> autoreload
+<span class="o">%</span><span class="k">autoreload</span> 2
 </pre></div>
 </div>
 </div>
@@ -198,19 +198,19 @@ y \sim \; & \theta \cdot T + 2 \cdot \nu + 5 \cdot (X[3]>0) + 0.1 \cdot \text{U}
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[49]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>TRUE_EFFECT = 7.5
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">TRUE_EFFECT</span> <span class="o">=</span> <span class="mf">7.5</span>
 
-CONSTANT_EFFECT = lambda X: TRUE_EFFECT
+<span class="n">CONSTANT_EFFECT</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">X</span><span class="p">:</span> <span class="n">TRUE_EFFECT</span>
 
-cd = iv_dgp_econml(
-    n=50000,
-    p=15,
-    true_effect=CONSTANT_EFFECT
-    )
+<span class="n">cd</span> <span class="o">=</span> <span class="n">iv_dgp_econml</span><span class="p">(</span>
+    <span class="n">n</span><span class="o">=</span><span class="mi">50000</span><span class="p">,</span>
+    <span class="n">p</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span>
+    <span class="n">true_effect</span><span class="o">=</span><span class="n">CONSTANT_EFFECT</span>
+    <span class="p">)</span>
 
-cd.preprocess_dataset()
+<span class="n">cd</span><span class="o">.</span><span class="n">preprocess_dataset</span><span class="p">()</span>
 
-outcome = cd.outcomes[0]
+<span class="n">outcome</span> <span class="o">=</span> <span class="n">cd</span><span class="o">.</span><span class="n">outcomes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -220,21 +220,21 @@ outcome = cd.outcomes[0]
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[50]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>estimator_list = [
-    &#39;iv.econml.iv.dr.SparseLinearDRIV&#39;,
-    &quot;iv.econml.iv.dml.DMLIV&quot;,
-    &quot;iv.econml.iv.dml.OrthoIV&quot;,
-    &quot;iv.econml.iv.dr.LinearDRIV&quot;,
-    ]
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">estimator_list</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;iv.econml.iv.dr.SparseLinearDRIV&#39;</span><span class="p">,</span>
+    <span class="s2">&quot;iv.econml.iv.dml.DMLIV&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;iv.econml.iv.dml.OrthoIV&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;iv.econml.iv.dr.LinearDRIV&quot;</span><span class="p">,</span>
+    <span class="p">]</span>
 
-ct_constant_te = CausalTune(
-    estimator_list=estimator_list,
-    components_time_budget=90,
-    propensity_model=&quot;dummy&quot;,
-    metrics_to_report=[&#39;ate&#39;]
-)
+<span class="n">ct_constant_te</span> <span class="o">=</span> <span class="n">CausalTune</span><span class="p">(</span>
+    <span class="n">estimator_list</span><span class="o">=</span><span class="n">estimator_list</span><span class="p">,</span>
+    <span class="n">components_time_budget</span><span class="o">=</span><span class="mi">90</span><span class="p">,</span>
+    <span class="n">propensity_model</span><span class="o">=</span><span class="s2">&quot;dummy&quot;</span><span class="p">,</span>
+    <span class="n">metrics_to_report</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;ate&#39;</span><span class="p">]</span>
+<span class="p">)</span>
 
-ct_constant_te.fit(data=cd, outcome=outcome)
+<span class="n">ct_constant_te</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">cd</span><span class="p">,</span> <span class="n">outcome</span><span class="o">=</span><span class="n">outcome</span><span class="p">)</span>
 <br/></pre></div>
 </div>
 </div>
@@ -251,14 +251,14 @@ Initial configs: [{&#39;estimator&#39;: {&#39;estimator_name&#39;: &#39;iv.econm
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[64]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def get_est_effects(models, test_x, metric, te=TRUE_EFFECT):
-    est_scores = []
-    for est_name, scr in models.scores.items():
-        est_effect = scr[&quot;estimator&quot;].estimator.effect(test_x).mean()
-        est_score_metric = scr[&#39;scores&#39;][&#39;validation&#39;][metric]
-        est_scores.append([est_name, est_effect, (est_effect-te)**2, est_score_metric])
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_est_effects</span><span class="p">(</span><span class="n">models</span><span class="p">,</span> <span class="n">test_x</span><span class="p">,</span> <span class="n">metric</span><span class="p">,</span> <span class="n">te</span><span class="o">=</span><span class="n">TRUE_EFFECT</span><span class="p">):</span>
+    <span class="n">est_scores</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">est_name</span><span class="p">,</span> <span class="n">scr</span> <span class="ow">in</span> <span class="n">models</span><span class="o">.</span><span class="n">scores</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">est_effect</span> <span class="o">=</span> <span class="n">scr</span><span class="p">[</span><span class="s2">&quot;estimator&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">estimator</span><span class="o">.</span><span class="n">effect</span><span class="p">(</span><span class="n">test_x</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+        <span class="n">est_score_metric</span> <span class="o">=</span> <span class="n">scr</span><span class="p">[</span><span class="s1">&#39;scores&#39;</span><span class="p">][</span><span class="s1">&#39;validation&#39;</span><span class="p">][</span><span class="n">metric</span><span class="p">]</span>
+        <span class="n">est_scores</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">est_name</span><span class="p">,</span> <span class="n">est_effect</span><span class="p">,</span> <span class="p">(</span><span class="n">est_effect</span><span class="o">-</span><span class="n">te</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">est_score_metric</span><span class="p">])</span>
 
-    return pd.DataFrame(est_scores, columns=[&quot;estimator&quot;, &quot;estimated_effect&quot;, &quot;ate_mse&quot;, metric])
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">est_scores</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;estimator&quot;</span><span class="p">,</span> <span class="s2">&quot;estimated_effect&quot;</span><span class="p">,</span> <span class="s2">&quot;ate_mse&quot;</span><span class="p">,</span> <span class="n">metric</span><span class="p">])</span>
 <br/></pre></div>
 </div>
 </div>
@@ -266,8 +266,8 @@ Initial configs: [{&#39;estimator&#39;: {&#39;estimator_name&#39;: &#39;iv.econm
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[65]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>for est, scr in ct_constant_te.scores.items():
-    print(scr[&#39;scores&#39;])
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">est</span><span class="p">,</span> <span class="n">scr</span> <span class="ow">in</span> <span class="n">ct_constant_te</span><span class="o">.</span><span class="n">scores</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">scr</span><span class="p">[</span><span class="s1">&#39;scores&#39;</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -287,7 +287,7 @@ Initial configs: [{&#39;estimator&#39;: {&#39;estimator_name&#39;: &#39;iv.econm
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[66]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>get_est_effects(ct_constant_te, ct_constant_te.test_df, &#39;energy_distance&#39;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">get_est_effects</span><span class="p">(</span><span class="n">ct_constant_te</span><span class="p">,</span> <span class="n">ct_constant_te</span><span class="o">.</span><span class="n">test_df</span><span class="p">,</span> <span class="s1">&#39;energy_distance&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -358,10 +358,10 @@ Initial configs: [{&#39;estimator&#39;: {&#39;estimator_name&#39;: &#39;iv.econm
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[67]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>print(&quot;(CausalTune Best Estimator)&quot;)
-print(f&quot;Estimator: {ct_constant_te.best_estimator}&quot;)
-print(f&quot;Config: {ct_constant_te.best_config}&quot;)
-print(f&quot;Energy distance score: {ct_constant_te.best_score}&quot;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;(CausalTune Best Estimator)&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Estimator: </span><span class="si">{</span><span class="n">ct_constant_te</span><span class="o">.</span><span class="n">best_estimator</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Config: </span><span class="si">{</span><span class="n">ct_constant_te</span><span class="o">.</span><span class="n">best_config</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Energy distance score: </span><span class="si">{</span><span class="n">ct_constant_te</span><span class="o">.</span><span class="n">best_score</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -381,14 +381,14 @@ Energy distance score: 0.002821829812681642
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[55]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>cd_holdout_constant_te = iv_dgp_econml(
-    n=10000,
-    p=15,
-    true_effect=CONSTANT_EFFECT
-    )
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cd_holdout_constant_te</span> <span class="o">=</span> <span class="n">iv_dgp_econml</span><span class="p">(</span>
+    <span class="n">n</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span>
+    <span class="n">p</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span>
+    <span class="n">true_effect</span><span class="o">=</span><span class="n">CONSTANT_EFFECT</span>
+    <span class="p">)</span>
 
-cd_holdout_constant_te.preprocess_dataset()
-ct_constant_te.score_dataset(df=cd_holdout_constant_te.data, dataset_name=&#39;test&#39;)
+<span class="n">cd_holdout_constant_te</span><span class="o">.</span><span class="n">preprocess_dataset</span><span class="p">()</span>
+<span class="n">ct_constant_te</span><span class="o">.</span><span class="n">score_dataset</span><span class="p">(</span><span class="n">df</span><span class="o">=</span><span class="n">cd_holdout_constant_te</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">dataset_name</span><span class="o">=</span><span class="s1">&#39;test&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -396,13 +396,13 @@ ct_constant_te.score_dataset(df=cd_holdout_constant_te.data, dataset_name=&#39;t
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[56]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from causaltune.visualizer import Visualizer
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">causaltune.visualizer</span> <span class="kn">import</span> <span class="n">Visualizer</span>
 
-viz = Visualizer(
-    test_df=cd_holdout_constant_te.data,
-    treatment_col_name=cd_holdout_constant_te.treatment,
-    outcome_col_name=cd_holdout_constant_te.outcomes[0]
-)
+<span class="n">viz</span> <span class="o">=</span> <span class="n">Visualizer</span><span class="p">(</span>
+    <span class="n">test_df</span><span class="o">=</span><span class="n">cd_holdout_constant_te</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
+    <span class="n">treatment_col_name</span><span class="o">=</span><span class="n">cd_holdout_constant_te</span><span class="o">.</span><span class="n">treatment</span><span class="p">,</span>
+    <span class="n">outcome_col_name</span><span class="o">=</span><span class="n">cd_holdout_constant_te</span><span class="o">.</span><span class="n">outcomes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -410,20 +410,20 @@ viz = Visualizer(
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[57]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>%matplotlib inline
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
 
-# plotting metrics by estimator
+<span class="c1"># plotting metrics by estimator</span>
 
-figtitle = f&#39;{viz.outcome_col_name}&#39;
-figsize = (7,5)
-metrics = (&#39;energy_distance&#39;, &#39;ate&#39;)
+<span class="n">figtitle</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">viz</span><span class="o">.</span><span class="n">outcome_col_name</span><span class="si">}</span><span class="s1">&#39;</span>
+<span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">7</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">metrics</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;energy_distance&#39;</span><span class="p">,</span> <span class="s1">&#39;ate&#39;</span><span class="p">)</span>
 
-viz.plot_metrics_by_estimator(
-    scores_dict=ct_constant_te.scores,
-    metrics=metrics,
-    figtitle=figtitle,
-    figsize=figsize
-)
+<span class="n">viz</span><span class="o">.</span><span class="n">plot_metrics_by_estimator</span><span class="p">(</span>
+    <span class="n">scores_dict</span><span class="o">=</span><span class="n">ct_constant_te</span><span class="o">.</span><span class="n">scores</span><span class="p">,</span>
+    <span class="n">metrics</span><span class="o">=</span><span class="n">metrics</span><span class="p">,</span>
+    <span class="n">figtitle</span><span class="o">=</span><span class="n">figtitle</span><span class="p">,</span>
+    <span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -443,7 +443,7 @@ viz.plot_metrics_by_estimator(
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[58]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>params = SimpleParamService(propensity_model=None, outcome_model=None, multivalue=treatment_is_multivalue(cd.treatment))
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">params</span> <span class="o">=</span> <span class="n">SimpleParamService</span><span class="p">(</span><span class="n">propensity_model</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">outcome_model</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">multivalue</span><span class="o">=</span><span class="n">treatment_is_multivalue</span><span class="p">(</span><span class="n">cd</span><span class="o">.</span><span class="n">treatment</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -451,45 +451,45 @@ viz.plot_metrics_by_estimator(
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[74]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def baseline_scores(ct, cd, iv_estimators):
-    # Baseline comparisons: IV models with default conigurations
-    baseline_scores = {}
-    for est_name in iv_estimators:
-        model = CausalModel(
-            data=ct.train_df,
-            treatment=cd.treatment,
-            outcome=outcome,
-            effect_modifiers=cd.effect_modifiers,
-            common_causes=[&quot;random&quot;],
-            instruments=cd.instruments,
-        )
-        identified_estimand = model.identify_effect(proceed_when_unidentifiable=True)
-        estimate = model.estimate_effect(
-            identified_estimand,
-            method_name=est_name,
-            method_params={
-                &quot;init_params&quot;: {},
-                &quot;fit_params&quot;: {},
-            },
-            test_significance=False,
-        )
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">baseline_scores</span><span class="p">(</span><span class="n">ct</span><span class="p">,</span> <span class="n">cd</span><span class="p">,</span> <span class="n">iv_estimators</span><span class="p">):</span>
+    <span class="c1"># Baseline comparisons: IV models with default conigurations</span>
+    <span class="n">baseline_scores</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">est_name</span> <span class="ow">in</span> <span class="n">iv_estimators</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">CausalModel</span><span class="p">(</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">ct</span><span class="o">.</span><span class="n">train_df</span><span class="p">,</span>
+            <span class="n">treatment</span><span class="o">=</span><span class="n">cd</span><span class="o">.</span><span class="n">treatment</span><span class="p">,</span>
+            <span class="n">outcome</span><span class="o">=</span><span class="n">outcome</span><span class="p">,</span>
+            <span class="n">effect_modifiers</span><span class="o">=</span><span class="n">cd</span><span class="o">.</span><span class="n">effect_modifiers</span><span class="p">,</span>
+            <span class="n">common_causes</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;random&quot;</span><span class="p">],</span>
+            <span class="n">instruments</span><span class="o">=</span><span class="n">cd</span><span class="o">.</span><span class="n">instruments</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">identified_estimand</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">identify_effect</span><span class="p">(</span><span class="n">proceed_when_unidentifiable</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">estimate</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">estimate_effect</span><span class="p">(</span>
+            <span class="n">identified_estimand</span><span class="p">,</span>
+            <span class="n">method_name</span><span class="o">=</span><span class="n">est_name</span><span class="p">,</span>
+            <span class="n">method_params</span><span class="o">=</span><span class="p">{</span>
+                <span class="s2">&quot;init_params&quot;</span><span class="p">:</span> <span class="p">{},</span>
+                <span class="s2">&quot;fit_params&quot;</span><span class="p">:</span> <span class="p">{},</span>
+            <span class="p">},</span>
+            <span class="n">test_significance</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="p">)</span>
 
-        base_effect_ = estimate.estimator.effect(ct.test_df).mean()
-        base_energy_dist = Scorer.energy_distance_score(estimate, ct.test_df)
+        <span class="n">base_effect_</span> <span class="o">=</span> <span class="n">estimate</span><span class="o">.</span><span class="n">estimator</span><span class="o">.</span><span class="n">effect</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">test_df</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+        <span class="n">base_energy_dist</span> <span class="o">=</span> <span class="n">Scorer</span><span class="o">.</span><span class="n">energy_distance_score</span><span class="p">(</span><span class="n">estimate</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">test_df</span><span class="p">)</span>
 
-        baseline_scores[est_name] = {
-            &quot;effect&quot;: base_effect_,
-            &quot;energy_distance&quot;: base_energy_dist
-        }
+        <span class="n">baseline_scores</span><span class="p">[</span><span class="n">est_name</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;effect&quot;</span><span class="p">:</span> <span class="n">base_effect_</span><span class="p">,</span>
+            <span class="s2">&quot;energy_distance&quot;</span><span class="p">:</span> <span class="n">base_energy_dist</span>
+        <span class="p">}</span>
 
-    baseline_estimator, baseline_metrics = sorted(baseline_scores.items(), key=lambda x: x[1][&quot;energy_distance&quot;])[0]
-    return baseline_estimator, baseline_metrics, estimate
+    <span class="n">baseline_estimator</span><span class="p">,</span> <span class="n">baseline_metrics</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">baseline_scores</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;energy_distance&quot;</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">baseline_estimator</span><span class="p">,</span> <span class="n">baseline_metrics</span><span class="p">,</span> <span class="n">estimate</span>
 
 
-baseline_estimator, baseline_metrics, estimate = baseline_scores(ct_constant_te, cd, estimator_list)
-print(&quot;(Best baseline)&quot;)
-print(&quot;Estimator: &quot;, baseline_estimator)
-print(&quot;Energy distance score: &quot;, baseline_metrics[&quot;energy_distance&quot;])
+<span class="n">baseline_estimator</span><span class="p">,</span> <span class="n">baseline_metrics</span><span class="p">,</span> <span class="n">estimate</span> <span class="o">=</span> <span class="n">baseline_scores</span><span class="p">(</span><span class="n">ct_constant_te</span><span class="p">,</span> <span class="n">cd</span><span class="p">,</span> <span class="n">estimator_list</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;(Best baseline)&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Estimator: &quot;</span><span class="p">,</span> <span class="n">baseline_estimator</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Energy distance score: &quot;</span><span class="p">,</span> <span class="n">baseline_metrics</span><span class="p">[</span><span class="s2">&quot;energy_distance&quot;</span><span class="p">])</span>
 <br/></pre></div>
 </div>
 </div>
@@ -509,9 +509,9 @@ Energy distance score:  0.002399240023787108
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[75]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>print(&quot;True Treatment Effect  = &quot;, TRUE_EFFECT)
-print(&quot;(Baseline) Treatment Effect: &quot;, baseline_metrics[&quot;effect&quot;])
-print(&quot;(CausalTune) Treatment Effect: &quot;, ct_constant_te.model.effect(ct_constant_te.test_df).mean())
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;True Treatment Effect  = &quot;</span><span class="p">,</span> <span class="n">TRUE_EFFECT</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;(Baseline) Treatment Effect: &quot;</span><span class="p">,</span> <span class="n">baseline_metrics</span><span class="p">[</span><span class="s2">&quot;effect&quot;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;(CausalTune) Treatment Effect: &quot;</span><span class="p">,</span> <span class="n">ct_constant_te</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">effect</span><span class="p">(</span><span class="n">ct_constant_te</span><span class="o">.</span><span class="n">test_df</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
 </pre></div>
 </div>
 </div>
@@ -530,35 +530,35 @@ True Treatment Effect  =  7.5
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[76]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Needed since ct.model.estimator doesn&#39;t include additional params -
-# treatment, outcome etc. - needed from CausalEstimate instance
-def energy_scorer_patch(
-    df: pd.DataFrame,
-    treatment: str,
-    outcome: str,
-    instrument: str,
-    effect_modifiers: List[str],
-    **kwargs
-):
-    if &quot;estimate&quot; in kwargs.keys():
-        df[&quot;dy&quot;] = kwargs[&quot;estimate&quot;].estimator.effect(df[effect_modifiers])
-    # Compute Energy distance for True &amp; No Effect
-    elif &quot;true_effect&quot; in kwargs.keys() and &quot;ne&quot; in kwargs.keys():
-        df[&quot;dy&quot;] = (
-            [0] * len(df) if kwargs[&quot;ne&quot;] is True
-            else [kwargs[&quot;true_effect&quot;]] * len(df)
-        )
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Needed since ct.model.estimator doesn&#39;t include additional params -</span>
+<span class="c1"># treatment, outcome etc. - needed from CausalEstimate instance</span>
+<span class="k">def</span> <span class="nf">energy_scorer_patch</span><span class="p">(</span>
+    <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span>
+    <span class="n">treatment</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">outcome</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">instrument</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">effect_modifiers</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+    <span class="o">**</span><span class="n">kwargs</span>
+<span class="p">):</span>
+    <span class="k">if</span> <span class="s2">&quot;estimate&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">df</span><span class="p">[</span><span class="s2">&quot;dy&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;estimate&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">estimator</span><span class="o">.</span><span class="n">effect</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">effect_modifiers</span><span class="p">])</span>
+    <span class="c1"># Compute Energy distance for True &amp; No Effect</span>
+    <span class="k">elif</span> <span class="s2">&quot;true_effect&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="ow">and</span> <span class="s2">&quot;ne&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">df</span><span class="p">[</span><span class="s2">&quot;dy&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span> <span class="k">if</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;ne&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">True</span>
+            <span class="k">else</span> <span class="p">[</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;true_effect&quot;</span><span class="p">]]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+        <span class="p">)</span>
 
-    df.loc[df[treatment] == 0, &quot;dy&quot;] = 0
-    df[&quot;yhat&quot;] = df[outcome] - df[&quot;dy&quot;]
+    <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="n">treatment</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;dy&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">df</span><span class="p">[</span><span class="s2">&quot;yhat&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">outcome</span><span class="p">]</span> <span class="o">-</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;dy&quot;</span><span class="p">]</span>
 
-    X1 = df[df[instrument] == 1]
-    X0 = df[df[instrument] == 0]
-    select_cols = effect_modifiers + [&quot;yhat&quot;]
+    <span class="n">X1</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="n">instrument</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="n">X0</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="n">instrument</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="n">select_cols</span> <span class="o">=</span> <span class="n">effect_modifiers</span> <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;yhat&quot;</span><span class="p">]</span>
 
-    energy_distance_score = dcor.energy_distance(X1[select_cols], X0[select_cols])
+    <span class="n">energy_distance_score</span> <span class="o">=</span> <span class="n">dcor</span><span class="o">.</span><span class="n">energy_distance</span><span class="p">(</span><span class="n">X1</span><span class="p">[</span><span class="n">select_cols</span><span class="p">],</span> <span class="n">X0</span><span class="p">[</span><span class="n">select_cols</span><span class="p">])</span>
 
-    return energy_distance_score
+    <span class="k">return</span> <span class="n">energy_distance_score</span>
 </pre></div>
 </div>
 </div>
@@ -566,34 +566,34 @@ def energy_scorer_patch(
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[79]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>print(&quot;Energy distance scores&quot;)
-base_estimator_edist = Scorer.energy_distance_score(estimate, ct_constant_te.test_df)
-ac_estimator_edist = energy_scorer_patch(
-    ct_constant_te.test_df, cd.treatment, outcome, cd.instruments[0], cd.effect_modifiers, estimate=ct_constant_te.model
-)
-ac_estimator_edist_ne = energy_scorer_patch(
-    ct_constant_te.test_df, cd.treatment, outcome, cd.instruments[0], cd.effect_modifiers, true_effect=TRUE_EFFECT, ne=True
-)
-ac_estimator_edist_te = energy_scorer_patch(
-    ct_constant_te.test_df, cd.treatment, outcome, cd.instruments[0], cd.effect_modifiers, true_effect=TRUE_EFFECT, ne=False
-)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Energy distance scores&quot;</span><span class="p">)</span>
+<span class="n">base_estimator_edist</span> <span class="o">=</span> <span class="n">Scorer</span><span class="o">.</span><span class="n">energy_distance_score</span><span class="p">(</span><span class="n">estimate</span><span class="p">,</span> <span class="n">ct_constant_te</span><span class="o">.</span><span class="n">test_df</span><span class="p">)</span>
+<span class="n">ac_estimator_edist</span> <span class="o">=</span> <span class="n">energy_scorer_patch</span><span class="p">(</span>
+    <span class="n">ct_constant_te</span><span class="o">.</span><span class="n">test_df</span><span class="p">,</span> <span class="n">cd</span><span class="o">.</span><span class="n">treatment</span><span class="p">,</span> <span class="n">outcome</span><span class="p">,</span> <span class="n">cd</span><span class="o">.</span><span class="n">instruments</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">cd</span><span class="o">.</span><span class="n">effect_modifiers</span><span class="p">,</span> <span class="n">estimate</span><span class="o">=</span><span class="n">ct_constant_te</span><span class="o">.</span><span class="n">model</span>
+<span class="p">)</span>
+<span class="n">ac_estimator_edist_ne</span> <span class="o">=</span> <span class="n">energy_scorer_patch</span><span class="p">(</span>
+    <span class="n">ct_constant_te</span><span class="o">.</span><span class="n">test_df</span><span class="p">,</span> <span class="n">cd</span><span class="o">.</span><span class="n">treatment</span><span class="p">,</span> <span class="n">outcome</span><span class="p">,</span> <span class="n">cd</span><span class="o">.</span><span class="n">instruments</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">cd</span><span class="o">.</span><span class="n">effect_modifiers</span><span class="p">,</span> <span class="n">true_effect</span><span class="o">=</span><span class="n">TRUE_EFFECT</span><span class="p">,</span> <span class="n">ne</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+<span class="n">ac_estimator_edist_te</span> <span class="o">=</span> <span class="n">energy_scorer_patch</span><span class="p">(</span>
+    <span class="n">ct_constant_te</span><span class="o">.</span><span class="n">test_df</span><span class="p">,</span> <span class="n">cd</span><span class="o">.</span><span class="n">treatment</span><span class="p">,</span> <span class="n">outcome</span><span class="p">,</span> <span class="n">cd</span><span class="o">.</span><span class="n">instruments</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">cd</span><span class="o">.</span><span class="n">effect_modifiers</span><span class="p">,</span> <span class="n">true_effect</span><span class="o">=</span><span class="n">TRUE_EFFECT</span><span class="p">,</span> <span class="n">ne</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">)</span>
 
-print(&quot;\nThe baseline and CausalTune energy scores are:&quot;)
-print(f&quot;\n(Baseline) Energy distance score: {base_estimator_edist:5f}&quot;)
-print(f&quot;(CausalTune) Energy distance score: {ac_estimator_edist:5f}&quot;)
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">The baseline and CausalTune energy scores are:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">(Baseline) Energy distance score: </span><span class="si">{</span><span class="n">base_estimator_edist</span><span class="si">:</span><span class="s2">5f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;(CausalTune) Energy distance score: </span><span class="si">{</span><span class="n">ac_estimator_edist</span><span class="si">:</span><span class="s2">5f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-print(&quot;\nThe energy distance between treatment and control is&quot;)
-print(f&quot;(No Effect) Energy distance score: {ac_estimator_edist_ne:5f}&quot;)
-print(&quot;This can be seen as an upper bound on the achievable energy score since \n&quot; +
-      &quot;it calculates the energy score under the assumption that there is no treatment effect.\n\n\n&quot;)
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">The energy distance between treatment and control is&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;(No Effect) Energy distance score: </span><span class="si">{</span><span class="n">ac_estimator_edist_ne</span><span class="si">:</span><span class="s2">5f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;This can be seen as an upper bound on the achievable energy score since </span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span>
+      <span class="s2">&quot;it calculates the energy score under the assumption that there is no treatment effect.</span><span class="se">\n\n\n</span><span class="s2">&quot;</span><span class="p">)</span>
 
 
-print(&quot;If we remove the true treatment effect (which is known in this case)\n&quot; +
-      &quot;from the treated units and compare the resulting outcomes with the control group,\n&quot; +
-      &quot; the energy distance becomes&quot;)
-print(f&quot;(True Effect) Energy distance score: {ac_estimator_edist_te:5f}&quot;)
-print(&quot;This can be seen as a lower bound on the achievable energy distance as \n&quot; +
-      &quot;the de-treated treatment and the control outcome distributions follow the same data generating process.&quot;)
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;If we remove the true treatment effect (which is known in this case)</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span>
+      <span class="s2">&quot;from the treated units and compare the resulting outcomes with the control group,</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span>
+      <span class="s2">&quot; the energy distance becomes&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;(True Effect) Energy distance score: </span><span class="si">{</span><span class="n">ac_estimator_edist_te</span><span class="si">:</span><span class="s2">5f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;This can be seen as a lower bound on the achievable energy distance as </span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span>
+      <span class="s2">&quot;the de-treated treatment and the control outcome distributions follow the same data generating process.&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -628,23 +628,23 @@ the de-treated treatment and the control outcome distributions follow the same d
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[78]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Feature importance with SHAP explainer
-import matplotlib.pyplot as plt
-import shap
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Feature importance with SHAP explainer</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">shap</span>
 
-# and now let&#39;s visualize feature importances!
-from causaltune.shap import shap_values
+<span class="c1"># and now let&#39;s visualize feature importances!</span>
+<span class="kn">from</span> <span class="nn">causaltune.shap</span> <span class="kn">import</span> <span class="n">shap_values</span>
 
-# Shapley values calculation can be slow so let&#39;s subsample
-this_df = ct_constant_te.test_df.sample(100)
+<span class="c1"># Shapley values calculation can be slow so let&#39;s subsample</span>
+<span class="n">this_df</span> <span class="o">=</span> <span class="n">ct_constant_te</span><span class="o">.</span><span class="n">test_df</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
 
-scr = ct_constant_te.scores[ct_constant_te.best_estimator]
-est = ct_constant_te.model
-shaps = shap_values(est, this_df)
+<span class="n">scr</span> <span class="o">=</span> <span class="n">ct_constant_te</span><span class="o">.</span><span class="n">scores</span><span class="p">[</span><span class="n">ct_constant_te</span><span class="o">.</span><span class="n">best_estimator</span><span class="p">]</span>
+<span class="n">est</span> <span class="o">=</span> <span class="n">ct_constant_te</span><span class="o">.</span><span class="n">model</span>
+<span class="n">shaps</span> <span class="o">=</span> <span class="n">shap_values</span><span class="p">(</span><span class="n">est</span><span class="p">,</span> <span class="n">this_df</span><span class="p">)</span>
 
-plt.title(outcome + &#39;_&#39; + ct_constant_te.best_estimator.split(&#39;.&#39;)[-1])
-shap.summary_plot(shaps, this_df[cd.effect_modifiers])
-plt.show()
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">outcome</span> <span class="o">+</span> <span class="s1">&#39;_&#39;</span> <span class="o">+</span> <span class="n">ct_constant_te</span><span class="o">.</span><span class="n">best_estimator</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">shap</span><span class="o">.</span><span class="n">summary_plot</span><span class="p">(</span><span class="n">shaps</span><span class="p">,</span> <span class="n">this_df</span><span class="p">[</span><span class="n">cd</span><span class="o">.</span><span class="n">effect_modifiers</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -667,12 +667,12 @@ plt.show()
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[80]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>LINEAR_EFFECT = lambda X: TRUE_EFFECT * (X[:, 2] + X[:, 7])
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">LINEAR_EFFECT</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">X</span><span class="p">:</span> <span class="n">TRUE_EFFECT</span> <span class="o">*</span> <span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">7</span><span class="p">])</span>
 
-cd = iv_dgp_econml(n=5000, p=15, true_effect=LINEAR_EFFECT)
-cd.preprocess_dataset()
+<span class="n">cd</span> <span class="o">=</span> <span class="n">iv_dgp_econml</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">true_effect</span><span class="o">=</span><span class="n">LINEAR_EFFECT</span><span class="p">)</span>
+<span class="n">cd</span><span class="o">.</span><span class="n">preprocess_dataset</span><span class="p">()</span>
 
-outcome = cd.outcomes[0]
+<span class="n">outcome</span> <span class="o">=</span> <span class="n">cd</span><span class="o">.</span><span class="n">outcomes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -680,13 +680,13 @@ outcome = cd.outcomes[0]
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[81]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>ct_linear_te = CausalTune(
-    estimator_list=estimator_list,
-    components_time_budget=60,
-    propensity_model=&quot;dummy&quot;,
-)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ct_linear_te</span> <span class="o">=</span> <span class="n">CausalTune</span><span class="p">(</span>
+    <span class="n">estimator_list</span><span class="o">=</span><span class="n">estimator_list</span><span class="p">,</span>
+    <span class="n">components_time_budget</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span>
+    <span class="n">propensity_model</span><span class="o">=</span><span class="s2">&quot;dummy&quot;</span><span class="p">,</span>
+<span class="p">)</span>
 
-ct_linear_te.fit(data=cd, outcome=outcome)
+<span class="n">ct_linear_te</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">cd</span><span class="p">,</span> <span class="n">outcome</span><span class="o">=</span><span class="n">outcome</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -702,7 +702,7 @@ Initial configs: [{&#39;estimator&#39;: {&#39;estimator_name&#39;: &#39;iv.econm
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[82]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>get_est_effects(ct_linear_te, ct_linear_te.test_df, &#39;energy_distance&#39;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">get_est_effects</span><span class="p">(</span><span class="n">ct_linear_te</span><span class="p">,</span> <span class="n">ct_linear_te</span><span class="o">.</span><span class="n">test_df</span><span class="p">,</span> <span class="s1">&#39;energy_distance&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -772,20 +772,20 @@ Initial configs: [{&#39;estimator&#39;: {&#39;estimator_name&#39;: &#39;iv.econm
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[83]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>cd_holdout_linear_te = iv_dgp_econml(
-    n=30000,
-    p=15,
-    true_effect=LINEAR_EFFECT
-    )
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cd_holdout_linear_te</span> <span class="o">=</span> <span class="n">iv_dgp_econml</span><span class="p">(</span>
+    <span class="n">n</span><span class="o">=</span><span class="mi">30000</span><span class="p">,</span>
+    <span class="n">p</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span>
+    <span class="n">true_effect</span><span class="o">=</span><span class="n">LINEAR_EFFECT</span>
+    <span class="p">)</span>
 
-cd_holdout_linear_te.preprocess_dataset()
-ct_linear_te.score_dataset(df=cd_holdout_linear_te.data, dataset_name=&#39;test&#39;)
+<span class="n">cd_holdout_linear_te</span><span class="o">.</span><span class="n">preprocess_dataset</span><span class="p">()</span>
+<span class="n">ct_linear_te</span><span class="o">.</span><span class="n">score_dataset</span><span class="p">(</span><span class="n">df</span><span class="o">=</span><span class="n">cd_holdout_linear_te</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">dataset_name</span><span class="o">=</span><span class="s1">&#39;test&#39;</span><span class="p">)</span>
 
-viz = Visualizer(
-    test_df=cd_holdout_linear_te.data,
-    treatment_col_name=cd_holdout_linear_te.treatment,
-    outcome_col_name=cd_holdout_linear_te.outcomes[0]
-)
+<span class="n">viz</span> <span class="o">=</span> <span class="n">Visualizer</span><span class="p">(</span>
+    <span class="n">test_df</span><span class="o">=</span><span class="n">cd_holdout_linear_te</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
+    <span class="n">treatment_col_name</span><span class="o">=</span><span class="n">cd_holdout_linear_te</span><span class="o">.</span><span class="n">treatment</span><span class="p">,</span>
+    <span class="n">outcome_col_name</span><span class="o">=</span><span class="n">cd_holdout_linear_te</span><span class="o">.</span><span class="n">outcomes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -793,20 +793,20 @@ viz = Visualizer(
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[84]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>%matplotlib inline
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
 
-# plotting metrics by estimator
+<span class="c1"># plotting metrics by estimator</span>
 
-figtitle = f&#39;{viz.outcome_col_name}&#39;
-figsize = (7,5)
-metrics = (&#39;energy_distance&#39;, &#39;ate&#39;)
+<span class="n">figtitle</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">viz</span><span class="o">.</span><span class="n">outcome_col_name</span><span class="si">}</span><span class="s1">&#39;</span>
+<span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">7</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">metrics</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;energy_distance&#39;</span><span class="p">,</span> <span class="s1">&#39;ate&#39;</span><span class="p">)</span>
 
-viz.plot_metrics_by_estimator(
-    scores_dict=ct_linear_te.scores,
-    metrics=metrics,
-    figtitle=figtitle,
-    figsize=figsize
-)
+<span class="n">viz</span><span class="o">.</span><span class="n">plot_metrics_by_estimator</span><span class="p">(</span>
+    <span class="n">scores_dict</span><span class="o">=</span><span class="n">ct_linear_te</span><span class="o">.</span><span class="n">scores</span><span class="p">,</span>
+    <span class="n">metrics</span><span class="o">=</span><span class="n">metrics</span><span class="p">,</span>
+    <span class="n">figtitle</span><span class="o">=</span><span class="n">figtitle</span><span class="p">,</span>
+    <span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -821,16 +821,16 @@ viz.plot_metrics_by_estimator(
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[85]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Shapley values calculation can be slow so let&#39;s subsample
-this_df = ct_linear_te.test_df.sample(100)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Shapley values calculation can be slow so let&#39;s subsample</span>
+<span class="n">this_df</span> <span class="o">=</span> <span class="n">ct_linear_te</span><span class="o">.</span><span class="n">test_df</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
 
-scr = ct_linear_te.scores[ct_linear_te.best_estimator]
-est = ct_linear_te.model
-shaps = shap_values(est, this_df)
+<span class="n">scr</span> <span class="o">=</span> <span class="n">ct_linear_te</span><span class="o">.</span><span class="n">scores</span><span class="p">[</span><span class="n">ct_linear_te</span><span class="o">.</span><span class="n">best_estimator</span><span class="p">]</span>
+<span class="n">est</span> <span class="o">=</span> <span class="n">ct_linear_te</span><span class="o">.</span><span class="n">model</span>
+<span class="n">shaps</span> <span class="o">=</span> <span class="n">shap_values</span><span class="p">(</span><span class="n">est</span><span class="p">,</span> <span class="n">this_df</span><span class="p">)</span>
 
-plt.title(outcome + &#39;_&#39; + ct_linear_te.best_estimator.split(&#39;.&#39;)[-1])
-shap.summary_plot(shaps, this_df[cd.effect_modifiers])
-plt.show()
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">outcome</span> <span class="o">+</span> <span class="s1">&#39;_&#39;</span> <span class="o">+</span> <span class="n">ct_linear_te</span><span class="o">.</span><span class="n">best_estimator</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">shap</span><span class="o">.</span><span class="n">summary_plot</span><span class="p">(</span><span class="n">shaps</span><span class="p">,</span> <span class="n">this_df</span><span class="p">[</span><span class="n">cd</span><span class="o">.</span><span class="n">effect_modifiers</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -852,13 +852,13 @@ plt.show()
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[86]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>QUADRATIC_EFFECT = lambda X: TRUE_EFFECT * (X[:, 2] ** 2)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">QUADRATIC_EFFECT</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">X</span><span class="p">:</span> <span class="n">TRUE_EFFECT</span> <span class="o">*</span> <span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
 
-cd = iv_dgp_econml(n=5000, p=15, true_effect=QUADRATIC_EFFECT)
-cd.preprocess_dataset()
+<span class="n">cd</span> <span class="o">=</span> <span class="n">iv_dgp_econml</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">true_effect</span><span class="o">=</span><span class="n">QUADRATIC_EFFECT</span><span class="p">)</span>
+<span class="n">cd</span><span class="o">.</span><span class="n">preprocess_dataset</span><span class="p">()</span>
 
-outcome = cd.outcomes[0]
-cd.data.head()
+<span class="n">outcome</span> <span class="o">=</span> <span class="n">cd</span><span class="o">.</span><span class="n">outcomes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">cd</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -1025,13 +1025,13 @@ cd.data.head()
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[87]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>ct_quad_te = CausalTune(
-    estimator_list=estimator_list,
-    components_time_budget=60,
-    propensity_model=&quot;dummy&quot;,
-)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ct_quad_te</span> <span class="o">=</span> <span class="n">CausalTune</span><span class="p">(</span>
+    <span class="n">estimator_list</span><span class="o">=</span><span class="n">estimator_list</span><span class="p">,</span>
+    <span class="n">components_time_budget</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span>
+    <span class="n">propensity_model</span><span class="o">=</span><span class="s2">&quot;dummy&quot;</span><span class="p">,</span>
+<span class="p">)</span>
 
-ct_quad_te.fit(data=cd, outcome=outcome)
+<span class="n">ct_quad_te</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">cd</span><span class="p">,</span> <span class="n">outcome</span><span class="o">=</span><span class="n">outcome</span><span class="p">)</span>
 <br/></pre></div>
 </div>
 </div>
@@ -1047,7 +1047,7 @@ Initial configs: [{&#39;estimator&#39;: {&#39;estimator_name&#39;: &#39;iv.econm
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[88]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>get_est_effects(ct_quad_te, ct_quad_te.test_df, &#39;energy_distance&#39;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">get_est_effects</span><span class="p">(</span><span class="n">ct_quad_te</span><span class="p">,</span> <span class="n">ct_quad_te</span><span class="o">.</span><span class="n">test_df</span><span class="p">,</span> <span class="s1">&#39;energy_distance&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1117,20 +1117,20 @@ Initial configs: [{&#39;estimator&#39;: {&#39;estimator_name&#39;: &#39;iv.econm
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[89]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>cd_holdout_quad_te = iv_dgp_econml(
-    n=20000,
-    p=15,
-    true_effect=QUADRATIC_EFFECT
-    )
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cd_holdout_quad_te</span> <span class="o">=</span> <span class="n">iv_dgp_econml</span><span class="p">(</span>
+    <span class="n">n</span><span class="o">=</span><span class="mi">20000</span><span class="p">,</span>
+    <span class="n">p</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span>
+    <span class="n">true_effect</span><span class="o">=</span><span class="n">QUADRATIC_EFFECT</span>
+    <span class="p">)</span>
 
-cd_holdout_quad_te.preprocess_dataset()
-ct_quad_te.score_dataset(df=cd_holdout_quad_te.data, dataset_name=&#39;test&#39;)
+<span class="n">cd_holdout_quad_te</span><span class="o">.</span><span class="n">preprocess_dataset</span><span class="p">()</span>
+<span class="n">ct_quad_te</span><span class="o">.</span><span class="n">score_dataset</span><span class="p">(</span><span class="n">df</span><span class="o">=</span><span class="n">cd_holdout_quad_te</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">dataset_name</span><span class="o">=</span><span class="s1">&#39;test&#39;</span><span class="p">)</span>
 
-viz = Visualizer(
-    test_df=cd_holdout_quad_te.data,
-    treatment_col_name=cd_holdout_quad_te.treatment,
-    outcome_col_name=cd_holdout_quad_te.outcomes[0]
-)
+<span class="n">viz</span> <span class="o">=</span> <span class="n">Visualizer</span><span class="p">(</span>
+    <span class="n">test_df</span><span class="o">=</span><span class="n">cd_holdout_quad_te</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
+    <span class="n">treatment_col_name</span><span class="o">=</span><span class="n">cd_holdout_quad_te</span><span class="o">.</span><span class="n">treatment</span><span class="p">,</span>
+    <span class="n">outcome_col_name</span><span class="o">=</span><span class="n">cd_holdout_quad_te</span><span class="o">.</span><span class="n">outcomes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1138,20 +1138,20 @@ viz = Visualizer(
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[90]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>%matplotlib inline
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
 
-# plotting metrics by estimator
+<span class="c1"># plotting metrics by estimator</span>
 
-figtitle = f&#39;{viz.outcome_col_name}&#39;
-figsize = (7,5)
-metrics = (&#39;energy_distance&#39;, &#39;ate&#39;)
+<span class="n">figtitle</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">viz</span><span class="o">.</span><span class="n">outcome_col_name</span><span class="si">}</span><span class="s1">&#39;</span>
+<span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">7</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">metrics</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;energy_distance&#39;</span><span class="p">,</span> <span class="s1">&#39;ate&#39;</span><span class="p">)</span>
 
-viz.plot_metrics_by_estimator(
-    scores_dict=ct_quad_te.scores,
-    metrics=metrics,
-    figtitle=figtitle,
-    figsize=figsize
-)
+<span class="n">viz</span><span class="o">.</span><span class="n">plot_metrics_by_estimator</span><span class="p">(</span>
+    <span class="n">scores_dict</span><span class="o">=</span><span class="n">ct_quad_te</span><span class="o">.</span><span class="n">scores</span><span class="p">,</span>
+    <span class="n">metrics</span><span class="o">=</span><span class="n">metrics</span><span class="p">,</span>
+    <span class="n">figtitle</span><span class="o">=</span><span class="n">figtitle</span><span class="p">,</span>
+    <span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1166,16 +1166,16 @@ viz.plot_metrics_by_estimator(
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[91]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Shapley values calculation can be slow so let&#39;s subsample
-this_df = ct_quad_te.test_df.sample(100)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Shapley values calculation can be slow so let&#39;s subsample</span>
+<span class="n">this_df</span> <span class="o">=</span> <span class="n">ct_quad_te</span><span class="o">.</span><span class="n">test_df</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
 
-scr = ct_quad_te.scores[ct_quad_te.best_estimator]
-est = ct_quad_te.model
-shaps = shap_values(est, this_df)
+<span class="n">scr</span> <span class="o">=</span> <span class="n">ct_quad_te</span><span class="o">.</span><span class="n">scores</span><span class="p">[</span><span class="n">ct_quad_te</span><span class="o">.</span><span class="n">best_estimator</span><span class="p">]</span>
+<span class="n">est</span> <span class="o">=</span> <span class="n">ct_quad_te</span><span class="o">.</span><span class="n">model</span>
+<span class="n">shaps</span> <span class="o">=</span> <span class="n">shap_values</span><span class="p">(</span><span class="n">est</span><span class="p">,</span> <span class="n">this_df</span><span class="p">)</span>
 
-plt.title(outcome + &#39;_&#39; + ct_quad_te.best_estimator.split(&#39;.&#39;)[-1])
-shap.summary_plot(shaps, this_df[cd.effect_modifiers])
-plt.show()
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">outcome</span> <span class="o">+</span> <span class="s1">&#39;_&#39;</span> <span class="o">+</span> <span class="n">ct_quad_te</span><span class="o">.</span><span class="n">best_estimator</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">shap</span><span class="o">.</span><span class="n">summary_plot</span><span class="p">(</span><span class="n">shaps</span><span class="p">,</span> <span class="n">this_df</span><span class="p">[</span><span class="n">cd</span><span class="o">.</span><span class="n">effect_modifiers</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>

@@ -103,38 +103,38 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[44]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>%load_ext autoreload
-%autoreload 2
-import os, sys
-import warnings
-warnings.filterwarnings(&#39;ignore&#39;) # suppress sklearn deprecation warnings for now..
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">load_ext</span> autoreload
+<span class="o">%</span><span class="k">autoreload</span> 2
+<span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span> <span class="c1"># suppress sklearn deprecation warnings for now..</span>
 
-import pandas as pd
-import numpy as np
-from sklearn.model_selection import train_test_split
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
 
-# the below checks for whether we run dowhy, causaltune, and FLAML from source
-root_path = root_path = os.path.realpath(&#39;../..&#39;)
-try:
-    import causaltune
-except ModuleNotFoundError:
-    sys.path.append(os.path.join(root_path, &quot;causaltune&quot;))
+<span class="c1"># the below checks for whether we run dowhy, causaltune, and FLAML from source</span>
+<span class="n">root_path</span> <span class="o">=</span> <span class="n">root_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">realpath</span><span class="p">(</span><span class="s1">&#39;../..&#39;</span><span class="p">)</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">causaltune</span>
+<span class="k">except</span> <span class="ne">ModuleNotFoundError</span><span class="p">:</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">root_path</span><span class="p">,</span> <span class="s2">&quot;causaltune&quot;</span><span class="p">))</span>
 
-try:
-    import dowhy
-except ModuleNotFoundError:
-    sys.path.append(os.path.join(root_path, &quot;dowhy&quot;))
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">dowhy</span>
+<span class="k">except</span> <span class="ne">ModuleNotFoundError</span><span class="p">:</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">root_path</span><span class="p">,</span> <span class="s2">&quot;dowhy&quot;</span><span class="p">))</span>
 
-try:
-    import flaml
-except ModuleNotFoundError:
-    sys.path.append(os.path.join(root_path, &quot;FLAML&quot;))
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">flaml</span>
+<span class="k">except</span> <span class="ne">ModuleNotFoundError</span><span class="p">:</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">root_path</span><span class="p">,</span> <span class="s2">&quot;FLAML&quot;</span><span class="p">))</span>
 
 
 
-from causaltune import CausalTune
-from causaltune.datasets import synth_ihdp, iv_dgp_econml, generate_non_random_dataset
-from causaltune.data_utils import CausalityDataset
+<span class="kn">from</span> <span class="nn">causaltune</span> <span class="kn">import</span> <span class="n">CausalTune</span>
+<span class="kn">from</span> <span class="nn">causaltune.datasets</span> <span class="kn">import</span> <span class="n">synth_ihdp</span><span class="p">,</span> <span class="n">iv_dgp_econml</span><span class="p">,</span> <span class="n">generate_non_random_dataset</span>
+<span class="kn">from</span> <span class="nn">causaltune.data_utils</span> <span class="kn">import</span> <span class="n">CausalityDataset</span>
 <br/></pre></div>
 </div>
 </div>
@@ -151,9 +151,9 @@ The autoreload extension is already loaded. To reload it, use:
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># this makes the notebook expand to full width of the browser window
-from IPython.core.display import display, HTML
-display(HTML(&quot;&lt;style&gt;.container { width:100% !important; }&lt;/style&gt;&quot;))
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># this makes the notebook expand to full width of the browser window</span>
+<span class="kn">from</span> <span class="nn">IPython.core.display</span> <span class="kn">import</span> <span class="n">display</span><span class="p">,</span> <span class="n">HTML</span>
+<span class="n">display</span><span class="p">(</span><span class="n">HTML</span><span class="p">(</span><span class="s2">&quot;&lt;style&gt;.container { width:100% !important; }&lt;/style&gt;&quot;</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -170,8 +170,8 @@ display(HTML(&quot;&lt;style&gt;.container { width:100% !important; }&lt;/style&
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[60]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>df = synth_ihdp(return_df=True).iloc[:,:5]
-display(df.head())
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">synth_ihdp</span><span class="p">(</span><span class="n">return_df</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,:</span><span class="mi">5</span><span class="p">]</span>
+<span class="n">display</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
 </pre></div>
 </div>
 </div>
@@ -255,7 +255,7 @@ display(df.head())
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>cd = CausalityDataset(data=df, treatment=&#39;treatment&#39;, outcomes=[&#39;y_factual&#39;])
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">=</span> <span class="n">CausalityDataset</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">treatment</span><span class="o">=</span><span class="s1">&#39;treatment&#39;</span><span class="p">,</span> <span class="n">outcomes</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;y_factual&#39;</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -264,7 +264,7 @@ display(df.head())
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>cd.preprocess_dataset()
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span><span class="o">.</span><span class="n">preprocess_dataset</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -273,7 +273,7 @@ display(df.head())
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>print(cd.effect_modifiers)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">cd</span><span class="o">.</span><span class="n">effect_modifiers</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -290,8 +290,8 @@ display(df.head())
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>ct = CausalTune(components_time_budget=5,)
-ct.fit(data=cd, outcome=&#39;y_factual&#39;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ct</span> <span class="o">=</span> <span class="n">CausalTune</span><span class="p">(</span><span class="n">components_time_budget</span><span class="o">=</span><span class="mi">5</span><span class="p">,)</span>
+<span class="n">ct</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">cd</span><span class="p">,</span> <span class="n">outcome</span><span class="o">=</span><span class="s1">&#39;y_factual&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -300,8 +300,8 @@ ct.fit(data=cd, outcome=&#39;y_factual&#39;)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>%matplotlib inline
-ct.causal_model.view_model()
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="n">ct</span><span class="o">.</span><span class="n">causal_model</span><span class="o">.</span><span class="n">view_model</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -320,7 +320,7 @@ ct.causal_model.view_model()
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[61]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>cd = CausalityDataset(data=df, treatment=&#39;treatment&#39;, outcomes=[&#39;y_factual&#39;], common_causes=[&#39;x1&#39;, &#39;x2&#39;])
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">=</span> <span class="n">CausalityDataset</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">treatment</span><span class="o">=</span><span class="s1">&#39;treatment&#39;</span><span class="p">,</span> <span class="n">outcomes</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;y_factual&#39;</span><span class="p">],</span> <span class="n">common_causes</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;x1&#39;</span><span class="p">,</span> <span class="s1">&#39;x2&#39;</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -329,10 +329,10 @@ ct.causal_model.view_model()
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[62]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>cd.preprocess_dataset()
-ct = CausalTune(components_time_budget=5,)
-ct.fit(data=cd, outcome=&#39;y_factual&#39;)
-ct.causal_model.view_model()
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span><span class="o">.</span><span class="n">preprocess_dataset</span><span class="p">()</span>
+<span class="n">ct</span> <span class="o">=</span> <span class="n">CausalTune</span><span class="p">(</span><span class="n">components_time_budget</span><span class="o">=</span><span class="mi">5</span><span class="p">,)</span>
+<span class="n">ct</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">cd</span><span class="p">,</span> <span class="n">outcome</span><span class="o">=</span><span class="s1">&#39;y_factual&#39;</span><span class="p">)</span>
+<span class="n">ct</span><span class="o">.</span><span class="n">causal_model</span><span class="o">.</span><span class="n">view_model</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -362,10 +362,10 @@ Initial configs: [{&#39;estimator&#39;: {&#39;estimator_name&#39;: &#39;backdoor
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>#load data
-df = iv_dgp_econml(p=4).data
-del df[&#39;random&#39;]
-print(df.head(5))
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#load data</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">iv_dgp_econml</span><span class="p">(</span><span class="n">p</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span><span class="o">.</span><span class="n">data</span>
+<span class="k">del</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;random&#39;</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -387,13 +387,13 @@ print(df.head(5))
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[35]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>cd = CausalityDataset(
-    data=df,
-    treatment=&#39;treatment&#39;,
-    outcomes=[&#39;y&#39;],
-    instruments=[&#39;Z&#39;]
-    )
-cd.preprocess_dataset()
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">=</span> <span class="n">CausalityDataset</span><span class="p">(</span>
+    <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span>
+    <span class="n">treatment</span><span class="o">=</span><span class="s1">&#39;treatment&#39;</span><span class="p">,</span>
+    <span class="n">outcomes</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">],</span>
+    <span class="n">instruments</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Z&#39;</span><span class="p">]</span>
+    <span class="p">)</span>
+<span class="n">cd</span><span class="o">.</span><span class="n">preprocess_dataset</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -401,10 +401,10 @@ cd.preprocess_dataset()
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>print(&#39;Outcomes:&#39;, cd.outcomes)
-print(&#39;Treatment:&#39;, cd.treatment)
-print(&#39;Instruments:&#39;, cd.instruments)
-print(&#39;Effect modifiers:&#39;, cd.effect_modifiers)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Outcomes:&#39;</span><span class="p">,</span> <span class="n">cd</span><span class="o">.</span><span class="n">outcomes</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Treatment:&#39;</span><span class="p">,</span> <span class="n">cd</span><span class="o">.</span><span class="n">treatment</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Instruments:&#39;</span><span class="p">,</span> <span class="n">cd</span><span class="o">.</span><span class="n">instruments</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Effect modifiers:&#39;</span><span class="p">,</span> <span class="n">cd</span><span class="o">.</span><span class="n">effect_modifiers</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -423,11 +423,11 @@ Effect modifiers: [&#39;x1&#39;, &#39;x2&#39;, &#39;x3&#39;, &#39;x4&#39;]
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>ct = CausalTune(
-    components_time_budget=5,
-    estimator_list=[&#39;iv.econml.iv.dml.DMLIV&#39;]
-    )
-ct.fit(data=cd, outcome=&#39;y&#39;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ct</span> <span class="o">=</span> <span class="n">CausalTune</span><span class="p">(</span>
+    <span class="n">components_time_budget</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+    <span class="n">estimator_list</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;iv.econml.iv.dml.DMLIV&#39;</span><span class="p">]</span>
+    <span class="p">)</span>
+<span class="n">ct</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">cd</span><span class="p">,</span> <span class="n">outcome</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -435,7 +435,7 @@ ct.fit(data=cd, outcome=&#39;y&#39;)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[43]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>ct.causal_model.view_model()
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ct</span><span class="o">.</span><span class="n">causal_model</span><span class="o">.</span><span class="n">view_model</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -454,10 +454,10 @@ ct.fit(data=cd, outcome=&#39;y&#39;)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[54]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>#load data
-df = generate_non_random_dataset().data
-del df[&#39;random&#39;]
-print(df.head(5))
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#load data</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">generate_non_random_dataset</span><span class="p">()</span><span class="o">.</span><span class="n">data</span>
+<span class="k">del</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;random&#39;</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -478,13 +478,13 @@ print(df.head(5))
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[55]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>cd = CausalityDataset(
-    data=df,
-    treatment=&#39;T&#39;,
-    outcomes=[&#39;Y&#39;],
-    propensity_modifiers=[&#39;propensity&#39;]
-    )
-cd.preprocess_dataset()
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">=</span> <span class="n">CausalityDataset</span><span class="p">(</span>
+    <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span>
+    <span class="n">treatment</span><span class="o">=</span><span class="s1">&#39;T&#39;</span><span class="p">,</span>
+    <span class="n">outcomes</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Y&#39;</span><span class="p">],</span>
+    <span class="n">propensity_modifiers</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;propensity&#39;</span><span class="p">]</span>
+    <span class="p">)</span>
+<span class="n">cd</span><span class="o">.</span><span class="n">preprocess_dataset</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -492,10 +492,10 @@ cd.preprocess_dataset()
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[58]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>print(&#39;Outcomes:&#39;, cd.outcomes)
-print(&#39;Treatment:&#39;, cd.treatment)
-print(&#39;Propensity Modifiers:&#39;, cd.propensity_modifiers)
-print(&#39;Effect modifiers:&#39;, cd.effect_modifiers)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Outcomes:&#39;</span><span class="p">,</span> <span class="n">cd</span><span class="o">.</span><span class="n">outcomes</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Treatment:&#39;</span><span class="p">,</span> <span class="n">cd</span><span class="o">.</span><span class="n">treatment</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Propensity Modifiers:&#39;</span><span class="p">,</span> <span class="n">cd</span><span class="o">.</span><span class="n">propensity_modifiers</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Effect modifiers:&#39;</span><span class="p">,</span> <span class="n">cd</span><span class="o">.</span><span class="n">effect_modifiers</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -514,10 +514,10 @@ Effect modifiers: [&#39;X1&#39;, &#39;X2&#39;, &#39;X3&#39;, &#39;X4&#39;, &#39;
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>ct = CausalTune(
-    components_time_budget=5,
-)
-ct.fit(data=cd, outcome=&#39;Y&#39;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ct</span> <span class="o">=</span> <span class="n">CausalTune</span><span class="p">(</span>
+    <span class="n">components_time_budget</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">ct</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">cd</span><span class="p">,</span> <span class="n">outcome</span><span class="o">=</span><span class="s1">&#39;Y&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -525,7 +525,7 @@ ct.fit(data=cd, outcome=&#39;Y&#39;)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[57]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>ct.causal_model.view_model()
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ct</span><span class="o">.</span><span class="n">causal_model</span><span class="o">.</span><span class="n">view_model</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>

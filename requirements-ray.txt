@@ -1,0 +1,2 @@
+#install extra dependencies from setup.py 'ray'
+-e file:../causaltune[ray]

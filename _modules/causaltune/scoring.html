@@ -80,14 +80,16 @@
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">QuantileTransformer</span>
 
 <span class="kn">from</span> <span class="nn">econml.cate_interpreter</span> <span class="kn">import</span> <span class="n">SingleTreeCateInterpreter</span>  <span class="c1"># noqa F401</span>
 <span class="kn">from</span> <span class="nn">dowhy.causal_estimator</span> <span class="kn">import</span> <span class="n">CausalEstimate</span>
 <span class="kn">from</span> <span class="nn">dowhy</span> <span class="kn">import</span> <span class="n">CausalModel</span>
 
+
 <span class="kn">from</span> <span class="nn">causaltune.thirdparty.causalml</span> <span class="kn">import</span> <span class="n">metrics</span>
 <span class="kn">from</span> <span class="nn">causaltune.erupt</span> <span class="kn">import</span> <span class="n">ERUPT</span>
-<span class="kn">from</span> <span class="nn">causaltune.utils</span> <span class="kn">import</span> <span class="n">treatment_values</span>
+<span class="kn">from</span> <span class="nn">causaltune.utils</span> <span class="kn">import</span> <span class="n">treatment_values</span><span class="p">,</span> <span class="n">psw_joint_weights</span>
 
 <span class="kn">import</span> <span class="nn">dcor</span>
 
@@ -112,7 +114,7 @@
     <span class="k">elif</span> <span class="n">problem</span> <span class="o">==</span> <span class="s2">&quot;backdoor&quot;</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">multivalue</span><span class="p">:</span>
             <span class="c1"># TODO: support other metrics for the multivalue case</span>
-            <span class="k">return</span> <span class="p">[</span><span class="s2">&quot;energy_distance&quot;</span><span class="p">]</span>
+            <span class="k">return</span> <span class="p">[</span><span class="s2">&quot;energy_distance&quot;</span><span class="p">,</span> <span class="s2">&quot;psw_energy_distance&quot;</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">metrics</span> <span class="o">=</span> <span class="p">[</span>
                 <span class="s2">&quot;erupt&quot;</span><span class="p">,</span>
@@ -121,6 +123,7 @@
                 <span class="s2">&quot;auc&quot;</span><span class="p">,</span>
                 <span class="c1"># &quot;r_scorer&quot;,</span>
                 <span class="s2">&quot;energy_distance&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;psw_energy_distance&quot;</span><span class="p">,</span>
             <span class="p">]</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">scores_only</span><span class="p">:</span>
                 <span class="n">metrics</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;ate&quot;</span><span class="p">)</span>
@@ -233,7 +236,8 @@
 
 <span class="sd">        Args:</span>
 <span class="sd">            metrics_to_report (Union[List[str], None]): list of strings specifying the evaluation metrics to compute.</span>
-<span class="sd">                Possible options include &#39;ate&#39;, &#39;erupt&#39;, &#39;norm_erupt&#39;, &#39;qini&#39;, &#39;auc&#39;, and &#39;energy_distance&#39;.</span>
+<span class="sd">                Possible options include &#39;ate&#39;, &#39;erupt&#39;, &#39;norm_erupt&#39;, &#39;qini&#39;, &#39;auc&#39;,</span>
+<span class="sd">                &#39;energy_distance&#39; and &#39;psw_energy_distance&#39;.</span>
 <span class="sd">            scoring_metric (str): specified metric</span>
 
 <span class="sd">        Returns:</span>
@@ -271,6 +275,20 @@
 
 <span class="sd">        &quot;&quot;&quot;</span>
 
+        <span class="n">Y0X</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">split_test_by</span> <span class="o">=</span> <span class="n">Scorer</span><span class="o">.</span><span class="n">_Y0_X_potential_outcomes</span><span class="p">(</span><span class="n">estimate</span><span class="p">,</span> <span class="n">df</span><span class="p">)</span>
+
+        <span class="n">YX_1</span> <span class="o">=</span> <span class="n">Y0X</span><span class="p">[</span><span class="n">Y0X</span><span class="p">[</span><span class="n">split_test_by</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="n">YX_0</span> <span class="o">=</span> <span class="n">Y0X</span><span class="p">[</span><span class="n">Y0X</span><span class="p">[</span><span class="n">split_test_by</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="n">select_cols</span> <span class="o">=</span> <span class="n">estimate</span><span class="o">.</span><span class="n">estimator</span><span class="o">.</span><span class="n">_effect_modifier_names</span> <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;yhat&quot;</span><span class="p">]</span>
+
+        <span class="n">energy_distance_score</span> <span class="o">=</span> <span class="n">dcor</span><span class="o">.</span><span class="n">energy_distance</span><span class="p">(</span>
+            <span class="n">YX_1</span><span class="p">[</span><span class="n">select_cols</span><span class="p">],</span> <span class="n">YX_0</span><span class="p">[</span><span class="n">select_cols</span><span class="p">]</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">energy_distance_score</span></div>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_Y0_X_potential_outcomes</span><span class="p">(</span><span class="n">estimate</span><span class="p">:</span> <span class="n">CausalEstimate</span><span class="p">,</span> <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
         <span class="n">est</span> <span class="o">=</span> <span class="n">estimate</span><span class="o">.</span><span class="n">estimator</span>
         <span class="c1"># assert est.identifier_method in [&quot;iv&quot;, &quot;backdoor&quot;]</span>
         <span class="n">treatment_name</span> <span class="o">=</span> <span class="p">(</span>
@@ -287,13 +305,100 @@
             <span class="k">else</span> <span class="n">treatment_name</span>
         <span class="p">)</span>
 
-        <span class="n">X1</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="n">split_test_by</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span>
-        <span class="n">X0</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="n">split_test_by</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span>
-        <span class="n">select_cols</span> <span class="o">=</span> <span class="n">est</span><span class="o">.</span><span class="n">_effect_modifier_names</span> <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;yhat&quot;</span><span class="p">]</span>
+        <span class="n">Y0X</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Y0X</span><span class="p">,</span> <span class="n">treatment_name</span><span class="p">,</span> <span class="n">split_test_by</span>
 
-        <span class="n">energy_distance_score</span> <span class="o">=</span> <span class="n">dcor</span><span class="o">.</span><span class="n">energy_distance</span><span class="p">(</span><span class="n">X1</span><span class="p">[</span><span class="n">select_cols</span><span class="p">],</span> <span class="n">X0</span><span class="p">[</span><span class="n">select_cols</span><span class="p">])</span>
+<div class="viewcode-block" id="Scorer.psw_energy_distance"><a class="viewcode-back" href="../../causaltune.html#causaltune.scoring.Scorer.psw_energy_distance">[docs]</a>    <span class="k">def</span> <span class="nf">psw_energy_distance</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">estimate</span><span class="p">:</span> <span class="n">CausalEstimate</span><span class="p">,</span>
+        <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span>
+        <span class="n">normalise_features</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculate propensity score adjusted energy distance score between treated and controls.</span>
 
-        <span class="k">return</span> <span class="n">energy_distance_score</span></div>
+<span class="sd">        Features are normalised using the sklearn.preprocessing.QuantileTransformer</span>
+
+<span class="sd">        For theoretical details, see Ramos-Carreño and Torrecilla (2023).</span>
+
+<span class="sd">        @param estimate (dowhy.causal_estimator.CausalEstimate): causal estimate to evaluate</span>
+<span class="sd">        @param df (pandas.DataFrame): input dataframe</span>
+<span class="sd">        @param normalise_features (bool): whether to normalise features with QuantileTransformer</span>
+
+<span class="sd">        @return float: propensity-score weighted energy distance score</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">Y0X</span><span class="p">,</span> <span class="n">treatment_name</span><span class="p">,</span> <span class="n">split_test_by</span> <span class="o">=</span> <span class="n">Scorer</span><span class="o">.</span><span class="n">_Y0_X_potential_outcomes</span><span class="p">(</span>
+            <span class="n">estimate</span><span class="p">,</span> <span class="n">df</span>
+        <span class="p">)</span>
+
+        <span class="n">Y0X_1</span> <span class="o">=</span> <span class="n">Y0X</span><span class="p">[</span><span class="n">Y0X</span><span class="p">[</span><span class="n">split_test_by</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="n">Y0X_0</span> <span class="o">=</span> <span class="n">Y0X</span><span class="p">[</span><span class="n">Y0X</span><span class="p">[</span><span class="n">split_test_by</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span>
+
+        <span class="n">YX_1_all_psw</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">psw_estimator</span><span class="o">.</span><span class="n">estimator</span><span class="o">.</span><span class="n">propensity_model</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span>
+            <span class="n">Y0X_1</span><span class="p">[</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">causal_model</span><span class="o">.</span><span class="n">get_effect_modifiers</span><span class="p">()</span>
+                <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">causal_model</span><span class="o">.</span><span class="n">get_common_causes</span><span class="p">()</span>
+            <span class="p">]</span>
+        <span class="p">)</span>
+        <span class="n">treatment_series</span> <span class="o">=</span> <span class="n">Y0X_1</span><span class="p">[</span><span class="n">treatment_name</span><span class="p">]</span>
+
+        <span class="n">YX_1_psw</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">YX_1_all_psw</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">treatment_series</span><span class="o">.</span><span class="n">unique</span><span class="p">():</span>
+            <span class="n">YX_1_psw</span><span class="p">[</span><span class="n">treatment_series</span> <span class="o">==</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">YX_1_all_psw</span><span class="p">[:,</span> <span class="n">i</span><span class="p">][</span><span class="n">treatment_series</span> <span class="o">==</span> <span class="n">i</span><span class="p">]</span>
+
+        <span class="n">YX_0_psw</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">psw_estimator</span><span class="o">.</span><span class="n">estimator</span><span class="o">.</span><span class="n">propensity_model</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span>
+            <span class="n">Y0X_0</span><span class="p">[</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">causal_model</span><span class="o">.</span><span class="n">get_effect_modifiers</span><span class="p">()</span>
+                <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">causal_model</span><span class="o">.</span><span class="n">get_common_causes</span><span class="p">()</span>
+            <span class="p">]</span>
+        <span class="p">)[:,</span> <span class="mi">0</span><span class="p">]</span>
+
+        <span class="n">select_cols</span> <span class="o">=</span> <span class="n">estimate</span><span class="o">.</span><span class="n">estimator</span><span class="o">.</span><span class="n">_effect_modifier_names</span> <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;yhat&quot;</span><span class="p">]</span>
+        <span class="n">features</span> <span class="o">=</span> <span class="n">estimate</span><span class="o">.</span><span class="n">estimator</span><span class="o">.</span><span class="n">_effect_modifier_names</span>
+
+        <span class="n">xy_psw</span> <span class="o">=</span> <span class="n">psw_joint_weights</span><span class="p">(</span><span class="n">YX_1_psw</span><span class="p">,</span> <span class="n">YX_0_psw</span><span class="p">)</span>
+        <span class="n">xx_psw</span> <span class="o">=</span> <span class="n">psw_joint_weights</span><span class="p">(</span><span class="n">YX_0_psw</span><span class="p">)</span>
+        <span class="n">yy_psw</span> <span class="o">=</span> <span class="n">psw_joint_weights</span><span class="p">(</span><span class="n">YX_1_psw</span><span class="p">)</span>
+
+        <span class="n">xy_mean_weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">xy_psw</span><span class="p">)</span>
+        <span class="n">xx_mean_weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">xx_psw</span><span class="p">)</span>
+        <span class="n">yy_mean_weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">yy_psw</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">normalise_features</span><span class="p">:</span>
+            <span class="n">qt</span> <span class="o">=</span> <span class="n">QuantileTransformer</span><span class="p">(</span><span class="n">n_quantiles</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+            <span class="n">X_quantiles</span> <span class="o">=</span> <span class="n">qt</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">Y0X</span><span class="p">[</span><span class="n">features</span><span class="p">])</span>
+
+            <span class="n">Y0X_transformed</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+                <span class="n">X_quantiles</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">features</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">Y0X</span><span class="o">.</span><span class="n">index</span>
+            <span class="p">)</span>
+            <span class="n">Y0X_transformed</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="p">[</span><span class="s2">&quot;yhat&quot;</span><span class="p">,</span> <span class="n">split_test_by</span><span class="p">]]</span> <span class="o">=</span> <span class="n">Y0X</span><span class="p">[</span>
+                <span class="p">[</span><span class="s2">&quot;yhat&quot;</span><span class="p">,</span> <span class="n">split_test_by</span><span class="p">]</span>
+            <span class="p">]</span>
+
+            <span class="n">Y0X_1</span> <span class="o">=</span> <span class="n">Y0X_transformed</span><span class="p">[</span><span class="n">Y0X_transformed</span><span class="p">[</span><span class="n">split_test_by</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="n">Y0X_0</span> <span class="o">=</span> <span class="n">Y0X_transformed</span><span class="p">[</span><span class="n">Y0X_transformed</span><span class="p">[</span><span class="n">split_test_by</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span>
+
+        <span class="n">exponent</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">distance_xy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reciprocal</span><span class="p">(</span><span class="n">xy_mean_weights</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span>
+            <span class="n">xy_psw</span><span class="p">,</span>
+            <span class="n">dcor</span><span class="o">.</span><span class="n">distances</span><span class="o">.</span><span class="n">pairwise_distances</span><span class="p">(</span>
+                <span class="n">Y0X_1</span><span class="p">[</span><span class="n">select_cols</span><span class="p">],</span> <span class="n">Y0X_0</span><span class="p">[</span><span class="n">select_cols</span><span class="p">],</span> <span class="n">exponent</span><span class="o">=</span><span class="n">exponent</span>
+            <span class="p">),</span>
+        <span class="p">)</span>
+        <span class="n">distance_yy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reciprocal</span><span class="p">(</span><span class="n">yy_mean_weights</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span>
+            <span class="n">yy_psw</span><span class="p">,</span>
+            <span class="n">dcor</span><span class="o">.</span><span class="n">distances</span><span class="o">.</span><span class="n">pairwise_distances</span><span class="p">(</span><span class="n">Y0X_1</span><span class="p">[</span><span class="n">select_cols</span><span class="p">],</span> <span class="n">exponent</span><span class="o">=</span><span class="n">exponent</span><span class="p">),</span>
+        <span class="p">)</span>
+        <span class="n">distance_xx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reciprocal</span><span class="p">(</span><span class="n">xx_mean_weights</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span>
+            <span class="n">xx_psw</span><span class="p">,</span>
+            <span class="n">dcor</span><span class="o">.</span><span class="n">distances</span><span class="o">.</span><span class="n">pairwise_distances</span><span class="p">(</span><span class="n">Y0X_0</span><span class="p">[</span><span class="n">select_cols</span><span class="p">],</span> <span class="n">exponent</span><span class="o">=</span><span class="n">exponent</span><span class="p">),</span>
+        <span class="p">)</span>
+        <span class="n">psw_energy_distance</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">distance_xy</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">distance_xx</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">distance_yy</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">psw_energy_distance</span></div>
 
 <div class="viewcode-block" id="Scorer.qini_make_score"><a class="viewcode-back" href="../../causaltune.html#causaltune.scoring.Scorer.qini_make_score">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">qini_make_score</span><span class="p">(</span>
@@ -452,7 +557,8 @@
 <span class="sd">            estimate (dowhy.causal_estimator.CausalEstimate): causal estimate to evaluate</span>
 <span class="sd">            df (pandas.DataFrame): input dataframe</span>
 <span class="sd">            metrics_to_report (List[str]): list of strings specifying the evaluation metrics to compute.</span>
-<span class="sd">                Possible options include &#39;ate&#39;, &#39;erupt&#39;, &#39;norm_erupt&#39;, &#39;qini&#39;, &#39;auc&#39;, and &#39;energy_distance&#39;.</span>
+<span class="sd">                Possible options include &#39;ate&#39;, &#39;erupt&#39;, &#39;norm_erupt&#39;, &#39;qini&#39;, &#39;auc&#39;,</span>
+<span class="sd">                &#39;energy_distance&#39; and &#39;psw_energy_distance&#39;.</span>
 <span class="sd">            r_scorer (Optional): callable object used to compute the R-score, default is None</span>
 
 <span class="sd">        Returns:</span>
@@ -543,6 +649,12 @@
         <span class="k">if</span> <span class="s2">&quot;energy_distance&quot;</span> <span class="ow">in</span> <span class="n">metrics_to_report</span><span class="p">:</span>
             <span class="n">out</span><span class="p">[</span><span class="s2">&quot;energy_distance&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Scorer</span><span class="o">.</span><span class="n">energy_distance_score</span><span class="p">(</span><span class="n">estimate</span><span class="p">,</span> <span class="n">df</span><span class="p">)</span>
 
+        <span class="k">if</span> <span class="s2">&quot;psw_energy_distance&quot;</span> <span class="ow">in</span> <span class="n">metrics_to_report</span><span class="p">:</span>
+            <span class="n">out</span><span class="p">[</span><span class="s2">&quot;psw_energy_distance&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">psw_energy_distance</span><span class="p">(</span>
+                <span class="n">estimate</span><span class="p">,</span>
+                <span class="n">df</span><span class="p">,</span>
+            <span class="p">)</span>
+
         <span class="k">del</span> <span class="n">df</span>
         <span class="k">return</span> <span class="n">out</span></div>
 
@@ -587,7 +699,7 @@
             <span class="p">]</span>
             <span class="n">best</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
                 <span class="nb">min</span><span class="p">(</span><span class="n">est_scores</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="n">metric</span><span class="p">])</span>
-                <span class="k">if</span> <span class="n">metric</span> <span class="o">==</span> <span class="s2">&quot;energy_distance&quot;</span>
+                <span class="k">if</span> <span class="n">metric</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;energy_distance&quot;</span><span class="p">,</span> <span class="s2">&quot;psw_energy_distance&quot;</span><span class="p">]</span>
                 <span class="k">else</span> <span class="nb">max</span><span class="p">(</span><span class="n">est_scores</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="n">metric</span><span class="p">])</span>
             <span class="p">)</span>
 

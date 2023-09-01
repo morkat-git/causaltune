@@ -460,7 +460,8 @@ used to group the data</p></li>
 <li><p><strong>estimate</strong> (<em>dowhy.causal_estimator.CausalEstimate</em>) – causal estimate to evaluate</p></li>
 <li><p><strong>df</strong> (<em>pandas.DataFrame</em>) – input dataframe</p></li>
 <li><p><strong>metrics_to_report</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) – list of strings specifying the evaluation metrics to compute.
-Possible options include ‘ate’, ‘erupt’, ‘norm_erupt’, ‘qini’, ‘auc’, and ‘energy_distance’.</p></li>
+Possible options include ‘ate’, ‘erupt’, ‘norm_erupt’, ‘qini’, ‘auc’,
+‘energy_distance’ and ‘psw_energy_distance’.</p></li>
 <li><p><strong>r_scorer</strong> (<em>Optional</em>) – callable object used to compute the R-score, default is None</p></li>
 </ul>
 </dd>
@@ -496,6 +497,18 @@ the propensity scores, the policy, the normalized policy, and the weights, if ap
 <dd class="field-odd"><p>tuple</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="causaltune.scoring.Scorer.psw_energy_distance">
+<span class="sig-name descname"><span class="pre">psw_energy_distance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">estimate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dowhy.causal_estimator.CausalEstimate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pandas.core.frame.DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalise_features</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/causaltune/scoring.html#Scorer.psw_energy_distance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#causaltune.scoring.Scorer.psw_energy_distance" title="Permalink to this definition"></a></dt>
+<dd><p>Calculate propensity score adjusted energy distance score between treated and controls.</p>
+<p>Features are normalised using the sklearn.preprocessing.QuantileTransformer</p>
+<p>For theoretical details, see Ramos-Carreño and Torrecilla (2023).</p>
+<p>&#64;param estimate (dowhy.causal_estimator.CausalEstimate): causal estimate to evaluate
+&#64;param df (pandas.DataFrame): input dataframe
+&#64;param normalise_features (bool): whether to normalise features with QuantileTransformer</p>
+<p>&#64;return float: propensity-score weighted energy distance score</p>
 </dd></dl>
 
 <dl class="py method">
@@ -572,7 +585,8 @@ For details refer to Nie and Wager (2017) and Schuler et al. (2018). Adaption fr
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>metrics_to_report</strong> (<em>Union</em><em>[</em><em>List</em><em>[</em><em>str</em><em>]</em><em>, </em><em>None</em><em>]</em>) – list of strings specifying the evaluation metrics to compute.
-Possible options include ‘ate’, ‘erupt’, ‘norm_erupt’, ‘qini’, ‘auc’, and ‘energy_distance’.</p></li>
+Possible options include ‘ate’, ‘erupt’, ‘norm_erupt’, ‘qini’, ‘auc’,
+‘energy_distance’ and ‘psw_energy_distance’.</p></li>
 <li><p><strong>scoring_metric</strong> (<em>str</em>) – specified metric</p></li>
 </ul>
 </dd>

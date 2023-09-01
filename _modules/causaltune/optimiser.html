@@ -450,7 +450,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_settings</span><span class="p">[</span><span class="s2">&quot;metrics_to_report&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">metric</span>
         <span class="p">)</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">metric</span> <span class="o">==</span> <span class="s2">&quot;energy_distance&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">metric</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;energy_distance&quot;</span><span class="p">,</span> <span class="s2">&quot;psw_energy_distance&quot;</span><span class="p">]:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_best_estimators</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="s2">&quot;inf&quot;</span><span class="p">),</span> <span class="kc">None</span><span class="p">))</span>
 
         <span class="c1"># TODO: allow specifying an exclusion list, too</span>
@@ -553,7 +553,9 @@
             <span class="n">evaluated_rewards</span><span class="o">=</span><span class="p">[]</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">resume_scores</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
             <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">resume_scores</span><span class="p">,</span>
-            <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;min&quot;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">metric</span> <span class="o">==</span> <span class="s2">&quot;energy_distance&quot;</span> <span class="k">else</span> <span class="s2">&quot;max&quot;</span><span class="p">,</span>
+            <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;min&quot;</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">metric</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;energy_distance&quot;</span><span class="p">,</span> <span class="s2">&quot;psw_energy_distance&quot;</span><span class="p">]</span>
+            <span class="k">else</span> <span class="s2">&quot;max&quot;</span><span class="p">,</span>
             <span class="n">low_cost_partial_config</span><span class="o">=</span><span class="p">{},</span>
             <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">_settings</span><span class="p">[</span><span class="s2">&quot;tuner&quot;</span><span class="p">],</span>
         <span class="p">)</span>
@@ -599,13 +601,14 @@
         <span class="n">estimates</span> <span class="o">=</span> <span class="n">Parallel</span><span class="p">(</span><span class="n">n_jobs</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="s2">&quot;threading&quot;</span><span class="p">)(</span>
             <span class="n">delayed</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_estimate_effect</span><span class="p">)(</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;estimator&quot;</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
         <span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="c1"># estimates = self._estimate_effect(config[&quot;estimator&quot;])</span>
 
         <span class="c1"># pop and cache separately the fitted model object, so we only store the best ones per estimator</span>
         <span class="k">if</span> <span class="s2">&quot;exception&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">estimates</span><span class="p">:</span>
             <span class="n">est_name</span> <span class="o">=</span> <span class="n">estimates</span><span class="p">[</span><span class="s2">&quot;estimator_name&quot;</span><span class="p">]</span>
             <span class="k">if</span> <span class="p">(</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_best_estimators</span><span class="p">[</span><span class="n">est_name</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">estimates</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">metric</span><span class="p">]</span>
-                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">metric</span> <span class="o">==</span> <span class="s2">&quot;energy_distance&quot;</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">metric</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;energy_distance&quot;</span><span class="p">,</span> <span class="s2">&quot;psw_energy_distance&quot;</span><span class="p">]</span>
                 <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">_best_estimators</span><span class="p">[</span><span class="n">est_name</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">estimates</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">metric</span><span class="p">]</span>
             <span class="p">):</span>
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_settings</span><span class="p">[</span><span class="s2">&quot;store_all&quot;</span><span class="p">]:</span>
